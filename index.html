@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plain Digital | Estrategia, Creatividad y Tecnología</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Tokens (OKLch) */
+            --bg-dark: oklch(15% 0.02 250);
+            --fg-dark: oklch(95% 0.005 250);
+            --bg-light: oklch(99% 0.002 240);
+            --fg-light: oklch(18% 0.012 250);
+            --accent-blue: oklch(58% 0.18 255);
+            --accent-red: oklch(60% 0.22 25);
+            --accent-yellow: oklch(85% 0.18 90);
+            --border: oklch(90% 0.008 240);
+            --muted: oklch(54% 0.012 250);
+
+            --font-display: 'Space Grotesk', system-ui, sans-serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+
+            --section-padding: clamp(80px, 10vh, 160px) 24px;
+            --max-width: 1200px;
+            
+            --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* TWEAK_DEFAULTS = /*EDITMODE-BEGIN* / {
+            "accent": "oklch(58% 0.18 255)",
+            "radius": "24px",
+            "motionIntensity": "1"
+        } /*EDITMODE-END* /; */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--fg-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+
+        p {
+            font-size: 1.125rem;
+            color: var(--muted);
+            max-width: 60ch;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- UTILS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition-smooth);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 30px rgba(47, 111, 235, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--fg-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: white;
+        }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 32px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: white;
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: var(--bg-dark);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6.5rem);
+            margin-bottom: 32px;
+            color: white;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.75rem);
+            margin-bottom: 48px;
+            max-width: 700px;
+            margin-inline: auto;
+            color: var(--muted);
+            line-height: 1.3;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Fragments background */
+        .fragments {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .fragment {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            will-change: transform;
+        }
+
+        .fragment-header { display: flex; gap: 6px; margin-bottom: 4px; }
+        .fragment-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+        .fragment-line { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
+        .fragment-chart { height: 40px; display: flex; align-items: flex-end; gap: 4px; }
+        .fragment-bar { flex: 1; background: var(--accent-blue); opacity: 0.4; border-radius: 2px 2px 0 0; }
+
+        /* --- THE PROBLEM --- */
+        .problem {
+            padding: var(--section-padding);
+            background-color: var(--bg-dark);
+            position: relative;
+            z-index: 10;
+        }
+
+        .problem-chaos {
+            height: 600px;
+            position: relative;
+            margin-top: 100px;
+        }
+
+        .chaos-item {
+            position: absolute;
+            padding: 24px 32px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            background: rgba(220, 38, 38, 0.05);
+            border-radius: 16px;
+            color: var(--accent-red);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* --- THE INSIGHT --- */
+        .insight {
+            padding: var(--section-padding);
+            background-color: var(--bg-light);
+            color: var(--fg-light);
+            text-align: center;
+        }
+
+        .insight h2 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 24px;
+            color: var(--fg-light);
+        }
+
+        .insight .transition-text {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .insight-grid {
+            margin-top: 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .insight-item {
+            padding: 48px 24px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            transition: var(--transition-smooth);
+        }
+
+        .insight-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        /* --- THE METHOD --- */
+        .method {
+            background-color: var(--bg-dark);
+            position: relative;
+        }
+
+        .sticky-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .method-step {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .method-step.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .method-step h3 {
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            margin-bottom: 24px;
+        }
+
+        .method-step p {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: white;
+            font-family: var(--font-display);
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .method-spacer { height: 500vh; }
+
+        /* --- PLANS --- */
+        .plans {
+            padding: var(--section-padding);
+            background-color: var(--bg-light);
+            color: var(--fg-light);
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+            margin-top: 80px;
+        }
+
+        .plan-card {
+            background: white;
+            padding: 60px 48px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+        }
+
+        .plan-card h3 { font-size: 1.75rem; margin-bottom: 20px; }
+        .plan-price { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 32px; }
+        .plan-card p { font-size: 1.1rem; color: var(--fg-light); opacity: 0.7; margin-bottom: 48px; flex-grow: 1; }
+        .plan-card .btn { width: 100%; justify-content: center; background: var(--fg-light); color: white; border-radius: 20px; }
+
+        .plan-card.featured { background: var(--fg-light); color: white; transform: scale(1.05); z-index: 5; border: none; }
+        .plan-card.featured p { color: white; opacity: 0.8; }
+        .plan-card.featured .plan-price { color: var(--accent-yellow); }
+        .plan-card.featured .btn { background: var(--accent-blue); }
+
+        /* --- RESULTS --- */
+        .results {
+            padding: var(--section-padding);
+            background-color: var(--bg-light);
+            color: var(--fg-light);
+            border-top: 1px solid var(--border);
+        }
+
+        .results-visual {
+            height: 500px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 48px;
+            margin-top: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- FINAL CTA --- */
+        .final-cta {
+            padding: 160px 24px;
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .final-cta h2 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 40px; color: white; }
+
+        /* --- CONTACT FORM --- */
+        .contact-form {
+            max-width: 640px;
+            margin: 60px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-field label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            font-family: var(--font-display);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.3s, background 0.3s;
+            width: 100%;
+        }
+
+        .form-field input::placeholder,
+        .form-field textarea::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .form-field input:focus,
+        .form-field select:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: var(--accent-yellow);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .form-field textarea {
+            min-height: 130px;
+            resize: vertical;
+            font-family: var(--font-body);
+        }
+
+        .form-field select option {
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        .form-honeypot {
+            position: absolute;
+            left: -5000px;
+        }
+
+        .form-submit {
+            background-color: var(--accent-yellow);
+            color: var(--fg-light);
+            border: none;
+            padding: 20px 32px;
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-top: 16px;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px) scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 30px rgba(235, 200, 47, 0.25);
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- TWEAKS --- */
+        .tweaks {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 8px 20px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--fg-light);
+        }
+
+        .tweak-opt { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .tweak-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px var(--border); }
+
+        footer {
+            padding: 100px 48px;
+            background-color: var(--bg-dark);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+        }
+
+        @media (max-width: 992px) {
+            footer { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-actions { flex-direction: column; }
+            .plan-card.featured { transform: scale(1); }
+            footer { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PLAIN</div>
+        <div class="nav-links">
+            <a href="#metodo">Método</a>
+            <a href="#planes">Planes</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO -->
+    <section class="hero" id="inicio">
+        <div class="fragments" id="hero-fragments"></div>
+        <div class="container hero-content">
+            <h1 class="reveal" data-od-id="hero-headline">Conectamos estrategia, creatividad y tecnología.</h1>
+            <p class="reveal">Ayudamos a negocios y startups a crecer con sistemas digitales diseñados para generar ventas reales.</p>
+            <div class="hero-actions reveal">
+                <a href="#contacto" class="btn btn-primary">Construyamos tu estrategia</a>
+                <a href="#planes" class="btn btn-secondary">Explorar planes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE PROBLEM -->
+    <section class="problem">
+        <div class="container">
+            <div style="max-width: 800px;">
+                <h2 class="reveal">Muchos negocios publican todos los días.</h2>
+                <div class="reveal" style="font-size: 2.5rem; color: var(--accent-red); margin-top: 40px; font-weight: 600; font-family: var(--font-display);">Pocos entienden realmente por qué no venden.</div>
+            </div>
+            
+            <div class="problem-chaos" id="problem-chaos">
+                <!-- Chaos items generated by JS -->
+            </div>
+
+            <div class="reveal" style="margin-top: 100px; max-width: 500px;">
+                <p>Redes desconectadas. Campañas improvisadas. Páginas que no convierten. Marketing sin dirección.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE INSIGHT -->
+    <section class="insight">
+        <div class="container">
+            <h2 class="reveal">El problema no es publicar menos.</h2>
+            <div class="transition-text reveal">Es tener una estrategia que conecte todo.</div>
+            
+            <div class="insight-grid">
+                <div class="insight-item reveal">Branding</div>
+                <div class="insight-item reveal">Content</div>
+                <div class="insight-item reveal">Ads</div>
+                <div class="insight-item reveal">CRM</div>
+                <div class="insight-item reveal">Web</div>
+                <div class="insight-item reveal">Funnels</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: THE PLAIN METHOD™ -->
+    <section class="method" id="metodo">
+        <div class="sticky-section">
+            <div class="method-step" data-step="1">
+                <h3>Step 1 — Analizar</h3>
+                <p>“Antes de diseñar una campaña, entendemos el negocio.”</p>
+            </div>
+            <div class="method-step" data-step="2">
+                <h3>Step 2 — Diseñar</h3>
+                <p>“Cada negocio necesita una estrategia diferente.”</p>
+            </div>
+            <div class="method-step" data-step="3">
+                <h3>Step 3 — Construir</h3>
+                <p>“Creamos el ecosistema digital correcto para cada marca.”</p>
+            </div>
+            <div class="method-step" data-step="4">
+                <h3>Step 4 — Conectar</h3>
+                <p>“Todo debe trabajar junto.”</p>
+            </div>
+            <div class="method-step" data-step="5">
+                <h3>Step 5 — Escalar</h3>
+                <p>“El objetivo no es publicar más. Es crecer mejor.”</p>
+            </div>
+        </div>
+        <div class="method-spacer"></div>
+    </section>
+
+    <!-- SECTION 5: PLANS -->
+    <section class="plans" id="planes">
+        <div class="container">
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <h2 class="reveal">No todos los negocios necesitan lo mismo.</h2>
+                <p class="reveal" style="margin-top: 24px; margin-inline: auto;">Diseñamos estrategias según los objetivos reales de cada marca.</p>
+            </div>
+            <div class="plans-grid">
+                <div class="plan-card reveal">
+                    <h3>PLAIN START</h3>
+                    <div class="plan-price">Desde $1M COP / mes</div>
+                    <p>Para negocios que necesitan dejar de improvisar digitalmente.</p>
+                    <a href="#contacto" class="btn">Empezar</a>
+                </div>
+                <div class="plan-card featured reveal">
+                    <h3>PLAIN GROWTH</h3>
+                    <div class="plan-price">Desde $2.5M COP / mes</div>
+                    <p>Para marcas que quieren crecer con estructura, automatización y estrategia.</p>
+                    <a href="#contacto" class="btn">Escalar mi negocio</a>
+                </div>
+                <div class="plan-card reveal">
+                    <h3>PLAIN CUSTOM</h3>
+                    <div class="plan-price">Personalizado</div>
+                    <p>Diseñado alrededor de las necesidades reales de tu negocio.</p>
+                    <a href="#contacto" class="btn">Construyamos algo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: RESULTS -->
+    <section class="results">
+        <div class="container">
+            <h2 class="reveal" style="text-align: center;">El marketing debería sentirse menos caótico.</h2>
+            <div class="results-visual reveal">
+                <!-- Abstract dashboard representation -->
+                <div style="width: 80%; height: 60%; background: #f9f9f9; border-radius: 24px; border: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+                    <div style="display: flex; gap: 16px;">
+                        <div style="flex: 1; height: 100px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+                            <div style="width: 40px; height: 8px; background: var(--accent-blue); border-radius: 4px; margin-bottom: 12px;"></div>
+                            <div style="width: 80px; height: 20px; background: #eee; border-radius: 4px;"></div>
+                        </div>
+                        <div style="flex: 1; height: 100px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+                            <div style="width: 40px; height: 8px; background: var(--accent-red); border-radius: 4px; margin-bottom: 12px;"></div>
+                            <div style="width: 80px; height: 20px; background: #eee; border-radius: 4px;"></div>
+                        </div>
+                        <div style="flex: 1; height: 100px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+                            <div style="width: 40px; height: 8px; background: var(--accent-yellow); border-radius: 4px; margin-bottom: 12px;"></div>
+                            <div style="width: 80px; height: 20px; background: #eee; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: flex-end; gap: 8px; padding: 20px;">
+                        <div style="flex: 1; height: 30%; background: var(--accent-blue); opacity: 0.2; border-radius: 4px;"></div>
+                        <div style="flex: 1; height: 50%; background: var(--accent-blue); opacity: 0.4; border-radius: 4px;"></div>
+                        <div style="flex: 1; height: 80%; background: var(--accent-blue); opacity: 0.6; border-radius: 4px;"></div>
+                        <div style="flex: 1; height: 60%; background: var(--accent-blue); opacity: 0.8; border-radius: 4px;"></div>
+                        <div style="flex: 1; height: 90%; background: var(--accent-blue); border-radius: 4px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: HUMAN -->
+    <section class="results" style="border: none; padding-top: 0;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+                <div>
+                    <h2 class="reveal">Desde negocios locales hasta startups.</h2>
+                    <p class="reveal" style="margin-top: 32px;">Plain Digital nació para ayudar a marcas reales a competir con estrategia, creatividad y tecnología.</p>
+                </div>
+                <div class="reveal" style="height: 400px; background: #f0f0f0; border-radius: 48px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                     <div style="width: 200px; height: 200px; background: var(--accent-yellow); border-radius: 50%; filter: blur(60px); opacity: 0.4;"></div>
+                     <div style="width: 150px; height: 150px; background: var(--accent-blue); border-radius: 50%; filter: blur(50px); opacity: 0.2; transform: translate(50px, -50px);"></div>
+                     <span style="z-index: 2; font-family: var(--font-display); font-weight: 700; color: #333;">CRECIMIENTO HUMANO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: FINAL CTA + FORM -->
+    <section class="final-cta" id="contacto">
+        <div class="container">
+            <h2 class="reveal">Tu negocio no necesita más ruido.</h2>
+            <div class="reveal" style="font-size: clamp(2rem, 6vw, 4rem); color: var(--accent-yellow); font-family: var(--font-display); font-weight: 600; margin-bottom: 20px;">Necesita una estrategia.</div>
+            <p class="reveal" style="margin: 0 auto 20px; color: var(--muted); text-align: center;">Cuéntanos qué necesita tu negocio. Te respondemos en menos de 24h con un diagnóstico inicial.</p>
+
+            <form
+                name="contacto"
+                method="POST"
+                action="/thank-you.html"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                class="contact-form reveal">
+                <input type="hidden" name="form-name" value="contacto" />
+                <p class="form-honeypot">
+                    <label>No llenar si eres humano: <input name="bot-field" /></label>
+                </p>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo" />
+                    </div>
+                    <div class="form-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="tu@email.com" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="telefono">Teléfono / WhatsApp</label>
+                        <input type="tel" id="telefono" name="telefono" required placeholder="+57 300 000 0000" />
+                    </div>
+                    <div class="form-field">
+                        <label for="empresa">Empresa (opcional)</label>
+                        <input type="text" id="empresa" name="empresa" placeholder="Nombre del negocio" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="programa">¿Qué necesitas?</label>
+                        <select id="programa" name="programa" required>
+                            <option value="">Selecciona un programa</option>
+                            <option value="Plain Start">Plain Start — Empezar bien</option>
+                            <option value="Plain Growth">Plain Growth — Escalar</option>
+                            <option value="Plain Custom">Plain Custom — A la medida</option>
+                            <option value="No estoy seguro">No estoy seguro, ayúdame</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="presupuesto">Presupuesto mensual</label>
+                        <select id="presupuesto" name="presupuesto" required>
+                            <option value="">Selecciona un rango</option>
+                            <option value="Menos de 1M COP">Menos de $1M COP</option>
+                            <option value="1M - 3M COP">$1M - $3M COP</option>
+                            <option value="3M - 5M COP">$3M - $5M COP</option>
+                            <option value="Más de 5M COP">Más de $5M COP</option>
+                            <option value="Por definir">Por definir</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="mensaje">Cuéntanos sobre tu negocio</label>
+                    <textarea id="mensaje" name="mensaje" required placeholder="¿Qué hacen? ¿Qué problema están enfrentando? ¿Qué intentaron antes?"></textarea>
+                </div>
+
+                <button type="submit" class="form-submit">Enviar y agendar diagnóstico →</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div class="logo">PLAIN</div>
+            <p style="font-size: 0.9rem;">Digital Growth Agency. Conectando estrategia, creatividad y tecnología.</p>
+        </div>
+        <div>
+            <h4 style="color: white; margin-bottom: 24px; font-family: var(--font-display);">Estrategia</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
+                <li><a href="#metodo" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Método</a></li>
+                <li><a href="#planes" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Planes</a></li>
+                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Resultados</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="color: white; margin-bottom: 24px; font-family: var(--font-display);">Contacto</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
+                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">hola@plain.digital</a></li>
+                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Instagram</a></li>
+                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">LinkedIn</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="color: white; margin-bottom: 24px; font-family: var(--font-display);">Legal</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
+                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Privacidad</a></li>
+                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Términos</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <div class="tweaks">
+        <span>Accent</span>
+        <div class="tweak-opt" onclick="setAccent('oklch(58% 0.18 255)')">
+            <div class="tweak-dot" style="background: oklch(58% 0.18 255);"></div>
+        </div>
+        <div class="tweak-opt" onclick="setAccent('oklch(60% 0.22 25)')">
+            <div class="tweak-dot" style="background: oklch(60% 0.22 25);"></div>
+        </div>
+        <div class="tweak-opt" onclick="setAccent('oklch(85% 0.18 90)')">
+            <div class="tweak-dot" style="background: oklch(85% 0.18 90);"></div>
+        </div>
+    </div>
+
+    <script>
+        function setAccent(color) {
+            document.documentElement.style.setProperty('--accent-blue', color);
+        }
+
+        // Reveal logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Hero fragments
+        const heroFragments = document.getElementById('hero-fragments');
+        const fragmentTypes = [
+            { w: 240, h: 180, bars: 5 },
+            { w: 180, h: 120, grid: true },
+            { w: 200, h: 100, line: true }
+        ];
+
+        for (let i = 0; i < 10; i++) {
+            const type = fragmentTypes[i % fragmentTypes.length];
+            const f = document.createElement('div');
+            f.className = 'fragment';
+            f.style.width = type.w + 'px';
+            f.style.top = Math.random() * 80 + 10 + '%';
+            f.style.left = Math.random() * 80 + 10 + '%';
+            f.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+            
+            let content = '<div class="fragment-header"><div class="fragment-dot"></div><div class="fragment-dot"></div><div class="fragment-dot"></div></div>';
+            if (type.bars) {
+                content += '<div class="fragment-chart">';
+                for (let j = 0; j < type.bars; j++) content += `<div class="fragment-bar" style="height: ${Math.random() * 100}%"></div>`;
+                content += '</div>';
+            } else if (type.grid) {
+                content += '<div class="fragment-grid">';
+                for (let j = 0; j < 6; j++) content += '<div class="fragment-block"></div>';
+                content += '</div>';
+            } else {
+                content += '<div class="fragment-line"></div><div class="fragment-line" style="width: 60%"></div>';
+            }
+            f.innerHTML = content;
+            heroFragments.appendChild(f);
+        }
+
+        // Parallax
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 40;
+            document.querySelectorAll('.fragment').forEach((f, i) => {
+                const factor = (i + 1) * 0.2;
+                f.style.transform = `translate(${x * factor}px, ${y * factor}px) rotate(${i * 2}deg)`;
+            });
+        });
+
+        // Chaos items
+        const chaosContainer = document.getElementById('problem-chaos');
+        const chaosCopies = [
+            "Ads sin segmentación", "Web sin tráfico", "Contenido sin propósito", 
+            "CRM vacío", "Marketing improvisado", "Embudo roto"
+        ];
+        chaosCopies.forEach((text, i) => {
+            const item = document.createElement('div');
+            item.className = 'chaos-item reveal';
+            item.innerText = text;
+            item.style.top = Math.random() * 80 + '%';
+            item.style.left = Math.random() * 80 + '%';
+            item.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+            chaosContainer.appendChild(item);
+            observer.observe(item);
+        });
+
+        // Sticky Method
+        const methodSection = document.querySelector('.method');
+        const steps = document.querySelectorAll('.method-step');
+        window.addEventListener('scroll', () => {
+            const rect = methodSection.getBoundingClientRect();
+            const scrollPercent = -rect.top / (rect.height - window.innerHeight);
+            if (scrollPercent >= 0 && scrollPercent <= 1) {
+                const stepIndex = Math.min(Math.floor(scrollPercent * steps.length), steps.length - 1);
+                steps.forEach((s, i) => s.classList.toggle('active', i === stepIndex));
+            }
+        });
+    </script>
+</body>
+</html>

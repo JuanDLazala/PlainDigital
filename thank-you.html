@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias — Plain Digital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: oklch(15% 0.02 250);
+            --fg-dark: oklch(95% 0.005 250);
+            --accent-blue: oklch(58% 0.18 255);
+            --accent-yellow: oklch(85% 0.18 90);
+            --muted: oklch(54% 0.012 250);
+            --font-display: 'Space Grotesk', system-ui, sans-serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--fg-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 700px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 18px;
+            background: rgba(235, 200, 47, 0.1);
+            color: var(--accent-yellow);
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        h1 .accent {
+            color: var(--accent-yellow);
+        }
+
+        p {
+            font-size: 1.15rem;
+            color: var(--muted);
+            line-height: 1.5;
+            max-width: 540px;
+            margin: 0 auto 16px;
+        }
+
+        .next-steps {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            text-align: left;
+        }
+
+        .step {
+            padding: 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+        }
+
+        .step-num {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--accent-yellow);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 8px;
+        }
+
+        .step-text {
+            color: white;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 60px;
+            padding: 16px 32px;
+            border-radius: 100px;
+            background-color: var(--accent-blue);
+            color: white;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back:hover {
+            transform: translateY(-2px) scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 30px rgba(47, 111, 235, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">Mensaje recibido</div>
+        <h1>Tu solicitud <span class="accent">llegó.</span></h1>
+        <p>Gracias por contarnos sobre tu negocio. Un estratega de Plain Digital lo revisará y te escribirá en menos de 24 horas hábiles con un diagnóstico inicial.</p>
+
+        <div class="next-steps">
+            <div class="step">
+                <div class="step-num">PASO 1</div>
+                <div class="step-text">Revisamos tu caso</div>
+            </div>
+            <div class="step">
+                <div class="step-num">PASO 2</div>
+                <div class="step-text">Te enviamos un diagnóstico</div>
+            </div>
+            <div class="step">
+                <div class="step-num">PASO 3</div>
+                <div class="step-text">Agendamos una llamada</div>
+            </div>
+        </div>
+
+        <a href="/" class="back">← Volver al inicio</a>
+    </div>
+</body>
+</html>

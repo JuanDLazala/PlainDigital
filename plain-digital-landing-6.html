@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plain Digital | Estrategia, Creatividad y Tecnología</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Color Tokens (OKLch) */
+            --bg-dark: oklch(10% 0.01 250);
+            --fg-dark: oklch(98% 0.005 250);
+            --bg-light: oklch(99% 0.002 240);
+            --fg-light: oklch(15% 0.015 250);
+            --accent-blue: oklch(58% 0.18 255);
+            --accent-red: oklch(62% 0.2 25);
+            --accent-yellow: oklch(88% 0.15 95);
+            --accent-yellow-dark: oklch(75% 0.15 85);
+            --border: oklch(92% 0.005 250);
+            --muted: oklch(60% 0.01 250);
+
+            --font-display: 'Space Grotesk', system-ui, sans-serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+
+            --section-padding: clamp(80px, 12vh, 180px) 24px;
+            --max-width: 1200px;
+            
+            --transition-smooth: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-dark);
+            color: var(--fg-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+        }
+
+        p {
+            font-size: 1.125rem;
+            color: var(--muted);
+            max-width: 65ch;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- PRE-LOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+            z-index: 9999;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1s ease-in-out;
+        }
+
+        /* --- UTILS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-smooth);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 18px 36px;
+            border-radius: 100px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: 1px solid transparent;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: 0 15px 40px rgba(47, 111, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: rgba(255, 255, 255, 0.15);
+            color: var(--fg-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 32px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: var(--transition-smooth);
+        }
+
+        nav.scrolled {
+            padding: 16px 48px;
+            background: rgba(10, 10, 12, 0.85);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-container {
+            height: 32px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 100%;
+            width: auto;
+            filter: brightness(0) invert(1);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            opacity: 0.5;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-trigger {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .nav-trigger span {
+            width: 24px;
+            height: 1px;
+            background: white;
+            transition: 0.3s;
+        }
+
+        /* --- MOBILE NAV --- */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-dark);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            transition: var(--transition-smooth);
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav a {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: var(--bg-dark);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 10vw, 7.5rem);
+            margin-bottom: 32px;
+            color: white;
+            line-height: 0.95;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            margin-bottom: 56px;
+            max-width: 750px;
+            margin-inline: auto;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+        }
+
+        /* Fragments background */
+        .fragments {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .fragment {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            will-change: transform;
+        }
+
+        /* --- THE PROBLEM --- */
+        .problem {
+            padding: var(--section-padding);
+            background-color: var(--bg-dark);
+            position: relative;
+            z-index: 10;
+        }
+
+        .problem-chaos {
+            height: 700px;
+            position: relative;
+            margin-top: 120px;
+        }
+
+        .chaos-item {
+            position: absolute;
+            padding: 24px 36px;
+            border: 1px solid rgba(220, 38, 38, 0.15);
+            background: rgba(220, 38, 38, 0.03);
+            border-radius: 20px;
+            color: var(--accent-red);
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.35rem;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        /* --- THE INSIGHT --- */
+        .insight {
+            padding: var(--section-padding);
+            background-color: var(--bg-light);
+            color: var(--fg-light);
+            text-align: center;
+            position: relative;
+        }
+
+        .insight h2 {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            margin-bottom: 24px;
+            color: var(--fg-light);
+        }
+
+        .insight .transition-text {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            color: var(--accent-blue);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .insight-grid {
+            margin-top: 120px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .insight-item {
+            padding: 56px 32px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 36px;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.35rem;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .insight-item:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--accent-blue);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.06);
+            color: var(--accent-blue);
+        }
+
+        /* --- THE METHOD --- */
+        .method {
+            background-color: var(--bg-dark);
+            position: relative;
+        }
+
+        .sticky-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .method-step {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            max-width: 1000px;
+            padding: 40px;
+        }
+
+        .method-step.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .method-step h3 {
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.5em;
+            margin-bottom: 32px;
+        }
+
+        .method-step p {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: white;
+            font-family: var(--font-display);
+            font-weight: 600;
+            line-height: 1.05;
+        }
+
+        .method-spacer { height: 600vh; }
+
+        /* --- PLANS --- */
+        .plans {
+            padding: var(--section-padding);
+            background-color: var(--bg-light);
+            color: var(--fg-light);
+            text-align: center;
+        }
+
+        .plans-logo-anchor {
+            height: 100px;
+            width: auto;
+            margin-bottom: 60px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 40px;
+            margin-top: 100px;
+            text-align: left;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            padding: 72px 56px;
+            border-radius: 48px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+        }
+
+        .plan-card h3 { font-size: 2rem; margin-bottom: 24px; }
+        .plan-price { font-size: 1.75rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 32px; }
+        .plan-card p { font-size: 1.15rem; color: var(--fg-light); opacity: 0.7; margin-bottom: 56px; flex-grow: 1; }
+        .plan-card .btn { width: 100%; justify-content: center; background: var(--fg-light); color: white; border-radius: 24px; }
+
+        .plan-card.featured { background: var(--fg-light); color: white; transform: scale(1.05); z-index: 5; border: none; box-shadow: 0 40px 80px rgba(0,0,0,0.15); }
+        .plan-card.featured p { color: white; opacity: 0.8; }
+        .plan-card.featured .plan-price { color: var(--accent-yellow); }
+        .plan-card.featured .btn { background: var(--accent-blue); }
+
+        /* --- CONTACT FORM --- */
+        .contact {
+            padding: var(--section-padding);
+            background-color: var(--bg-light);
+            color: var(--fg-light);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        .form-group {
+            margin-bottom: 32px;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+            color: var(--muted);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 20px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--fg-light);
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-input:focus {
+            border-bottom-color: var(--accent-blue);
+        }
+
+        /* --- FINAL CTA --- */
+        .final-cta {
+            padding: 200px 24px;
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .final-cta h2 { font-size: clamp(4rem, 10vw, 8rem); margin-bottom: 40px; color: white; line-height: 0.9; }
+
+        footer {
+            padding: 120px 60px;
+            background-color: var(--bg-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 80px;
+        }
+
+        .footer-logo {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 992px) {
+            footer { grid-template-columns: 1fr 1fr; }
+            .contact-grid { grid-template-columns: 1fr; gap: 60px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-trigger { display: flex; }
+            .hero h1 { font-size: 3.5rem; }
+            .plan-card.featured { transform: scale(1); margin-top: 40px; }
+            .problem-chaos { height: auto; display: grid; gap: 16px; margin-top: 60px; }
+            .chaos-item { position: static !important; transform: none !important; white-space: normal; text-align: center; }
+            footer { grid-template-columns: 1fr; }
+            .plans-logo-anchor { height: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader"></div>
+
+    <nav id="navbar">
+        <a href="#inicio" class="logo-container">
+            <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="logo-img">
+        </a>
+        <div class="nav-links">
+            <a href="#metodo">Método</a>
+            <a href="#planes">Planes</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+        <div class="nav-trigger" id="nav-trigger">
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <a href="#inicio" onclick="toggleMenu()">Inicio</a>
+        <a href="#metodo" onclick="toggleMenu()">Método</a>
+        <a href="#planes" onclick="toggleMenu()">Planes</a>
+        <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+    </div>
+
+    <!-- SECTION 1: HERO (No background logo for readability) -->
+    <section class="hero" id="inicio">
+        <div class="fragments" id="hero-fragments"></div>
+        <div class="container hero-content">
+            <h1 class="reveal">Conectamos estrategia, creatividad y tecnología.</h1>
+            <p class="reveal">Ayudamos a negocios y startups a crecer con sistemas digitales diseñados para generar ventas reales.</p>
+            <div class="hero-actions reveal">
+                <a href="#contacto" class="btn btn-primary">Construyamos tu estrategia</a>
+                <a href="#planes" class="btn btn-secondary">Explorar planes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE PROBLEM (No logo) -->
+    <section class="problem">
+        <div class="container">
+            <div style="max-width: 900px;">
+                <h2 class="reveal">Muchos negocios publican todos los días.</h2>
+                <div class="reveal" style="font-size: clamp(2rem, 5vw, 3.5rem); color: var(--accent-red); margin-top: 48px; font-weight: 600; font-family: var(--font-display);">Pocos entienden realmente por qué no venden.</div>
+            </div>
+            <div class="problem-chaos" id="problem-chaos"></div>
+            <div class="reveal" style="margin-top: 120px; max-width: 600px;">
+                <p>Redes desconectadas. Campañas improvisadas. Páginas que no convierten. Marketing sin dirección clara.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE INSIGHT (No logo) -->
+    <section class="insight">
+        <div class="container">
+            <h2 class="reveal">El problema no es publicar menos.</h2>
+            <div class="transition-text reveal">Es tener una estrategia que conecte todo.</div>
+            <div class="insight-grid">
+                <div class="insight-item reveal">Branding</div>
+                <div class="insight-item reveal">Content</div>
+                <div class="insight-item reveal">Ads</div>
+                <div class="insight-item reveal">CRM</div>
+                <div class="insight-item reveal">Web</div>
+                <div class="insight-item reveal">Funnels</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: THE METHOD -->
+    <section class="method" id="metodo">
+        <div class="sticky-section">
+            <div class="method-step" data-step="1"><h3>Step 1 — Analizar</h3><p>“Antes de diseñar una campaña, entendemos el negocio.”</p></div>
+            <div class="method-step" data-step="2"><h3>Step 2 — Diseñar</h3><p>“Cada negocio necesita una estrategia diferente.”</p></div>
+            <div class="method-step" data-step="3"><h3>Step 3 — Construir</h3><p>“Creamos el ecosistema digital correcto para cada marca.”</p></div>
+            <div class="method-step" data-step="4"><h3>Step 4 — Conectar</h3><p>“Todo debe trabajar junto.”</p></div>
+            <div class="method-step" data-step="5"><h3>Step 5 — Escalar</h3><p>“El objetivo no es publicar más. Es crecer mejor.”</p></div>
+        </div>
+        <div class="method-spacer"></div>
+    </section>
+
+    <!-- SECTION 5: PLANS (Logo lives here) -->
+    <section class="plans" id="planes">
+        <div class="container">
+            <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="plans-logo-anchor reveal">
+            <h2 class="reveal">No todos los negocios necesitan lo mismo.</h2>
+            <p class="reveal" style="margin-top: 32px; margin-inline: auto;">Diseñamos estrategias según los objetivos reales de cada marca.</p>
+            <div class="plans-grid">
+                <div class="plan-card reveal">
+                    <h3>PLAIN START</h3>
+                    <div class="plan-price">Desde $1M — $1.5M COP / mes</div>
+                    <p>Para negocios que necesitan dejar de improvisar digitalmente y establecer una base sólida.</p>
+                    <a href="#contacto" class="btn">Empezar</a>
+                </div>
+                <div class="plan-card featured reveal">
+                    <h3>PLAIN GROWTH</h3>
+                    <div class="plan-price" style="color: var(--accent-yellow-dark);">Desde $2.5M — $3.5M COP / mes</div>
+                    <p>Para marcas que quieren crecer con estructura, automatización y estrategia.</p>
+                    <a href="#contacto" class="btn">Escalar mi negocio</a>
+                </div>
+                <div class="plan-card reveal">
+                    <h3>PLAIN CUSTOM</h3>
+                    <div class="plan-price">Personalizado</div>
+                    <p>Estrategias diseñadas 100% alrededor de las necesidades reales de tu negocio.</p>
+                    <a href="#contacto" class="btn">Construyamos algo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: CONTACT -->
+    <section class="contact" id="contacto">
+        <div class="container">
+            <div class="contact-grid">
+                <div>
+                    <h2 class="reveal">Empecemos a crecer con estrategia.</h2>
+                    <p class="reveal" style="margin-top: 32px;">Cuéntanos sobre tu negocio y diseñemos el ecosistema digital que necesitas.</p>
+                </div>
+                <div class="reveal">
+                    <form action="#">
+                        <div class="form-group"><label class="form-label">Nombre</label><input type="text" class="form-input" required></div>
+                        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" required></div>
+                        <div class="form-group"><label class="form-label">Mensaje</label><textarea class="form-input" rows="3"></textarea></div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Enviar solicitud</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div style="display: flex; flex-direction: column;">
+            <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="footer-logo">
+            <p style="font-size: 0.95rem;">Digital Growth Agency. Conectando estrategia, creatividad y tecnología.</p>
+        </div>
+        <div>
+            <h4 style="color: white; margin-bottom: 32px; font-size: 0.8rem; text-transform: uppercase;">Estrategia</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+                <li><a href="#metodo" style="color: var(--muted); text-decoration: none;">Método</a></li>
+                <li><a href="#planes" style="color: var(--muted); text-decoration: none;">Planes</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="color: white; margin-bottom: 32px; font-size: 0.8rem; text-transform: uppercase;">Contacto</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+                <li><a href="#" style="color: var(--muted); text-decoration: none;">hola@plain.digital</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="color: white; margin-bottom: 32px; font-size: 0.8rem; text-transform: uppercase;">Legal</h4>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+                <li><a href="#" style="color: var(--muted); text-decoration: none;">Privacidad</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.transform = 'scaleX(1)';
+            setTimeout(() => { preloader.style.opacity = '0'; }, 500);
+        });
+
+        const navTrigger = document.getElementById('nav-trigger');
+        const mobileNav = document.getElementById('mobile-nav');
+        function toggleMenu() { mobileNav.classList.toggle('active'); navTrigger.classList.toggle('active'); }
+        navTrigger.addEventListener('click', toggleMenu);
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 100);
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.05 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const heroFragments = document.getElementById('hero-fragments');
+        for (let i = 0; i < 12; i++) {
+            const f = document.createElement('div');
+            f.className = 'fragment';
+            f.style.width = '240px';
+            f.style.top = Math.random() * 80 + 10 + '%';
+            f.style.left = Math.random() * 80 + 10 + '%';
+            f.innerHTML = '<div style="height:5px; width:40%; background:rgba(255,255,255,0.1); border-radius:3px;"></div>';
+            heroFragments.appendChild(f);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 60;
+            const y = (e.clientY / window.innerHeight - 0.5) * 60;
+            document.querySelectorAll('.fragment').forEach((f, i) => {
+                f.style.transform = `translate(${x * (i + 1) * 0.1}px, ${y * (i + 1) * 0.1}px) rotate(${i * 2}deg)`;
+            });
+        });
+
+        const chaosContainer = document.getElementById('problem-chaos');
+        const chaosCopies = ["Ads sin segmentación", "Web sin tráfico", "Contenido sin propósito", "CRM vacío", "Embudo roto", "Marketing improvisado"];
+        chaosCopies.forEach((text, i) => {
+            const item = document.createElement('div');
+            item.className = 'chaos-item reveal';
+            item.innerText = text;
+            if (window.innerWidth > 768) {
+                item.style.top = Math.random() * 80 + '%';
+                item.style.left = Math.random() * 80 + '%';
+                item.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+            }
+            chaosContainer.appendChild(item);
+            observer.observe(item);
+        });
+
+        const methodSection = document.querySelector('.method');
+        const steps = document.querySelectorAll('.method-step');
+        window.addEventListener('scroll', () => {
+            const rect = methodSection.getBoundingClientRect();
+            const scrollPercent = -rect.top / (rect.height - window.innerHeight);
+            if (scrollPercent >= 0 && scrollPercent <= 1) {
+                const stepIndex = Math.min(Math.floor(scrollPercent * steps.length), steps.length - 1);
+                steps.forEach((s, i) => {
+                    s.classList.toggle('active', i === stepIndex);
+                    s.style.transform = i === stepIndex ? 'translateY(0)' : (i < stepIndex ? 'translateY(-50px)' : 'translateY(50px)');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
