@@ -357,6 +357,26 @@
             color: var(--fg-light);
         }
 
+        .plans-brand {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .plans-brand img {
+            height: clamp(72px, 12vw, 110px);
+            width: auto;
+            display: block;
+        }
+
+        .footer-logo {
+            height: 56px;
+            width: auto;
+            display: block;
+            filter: brightness(0) invert(1);
+            opacity: 0.95;
+        }
+
         .plans-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -562,7 +582,7 @@
 <body>
 
     <nav>
-        <div class="logo">PLAIN</div>
+        <div class="logo">PLAIN DIGITAL</div>
         <div class="nav-links">
             <a href="#metodo">Método</a>
             <a href="#planes">Planes</a>
@@ -649,6 +669,9 @@
     <section class="plans" id="planes">
         <div class="container">
             <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <div class="plans-brand reveal">
+                    <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" />
+                </div>
                 <h2 class="reveal">No todos los negocios necesitan lo mismo.</h2>
                 <p class="reveal" style="margin-top: 24px; margin-inline: auto;">Diseñamos estrategias según los objetivos reales de cada marca.</p>
             </div>
@@ -802,7 +825,7 @@
 
     <footer>
         <div style="display: flex; flex-direction: column; gap: 24px;">
-            <div class="logo">PLAIN</div>
+            <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="footer-logo" />
             <p style="font-size: 0.9rem;">Digital Growth Agency. Conectando estrategia, creatividad y tecnología.</p>
         </div>
         <div>
