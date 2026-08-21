@@ -1,1054 +1,1148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plain Digital | Estrategia, Creatividad y Tecnología</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Color Tokens (OKLch) */
-            --bg-dark: oklch(15% 0.02 250);
-            --fg-dark: oklch(95% 0.005 250);
-            --bg-light: oklch(99% 0.002 240);
-            --fg-light: oklch(18% 0.012 250);
-            --accent-blue: oklch(58% 0.18 255);
-            --accent-red: oklch(60% 0.22 25);
-            --accent-yellow: oklch(85% 0.18 90);
-            --border: oklch(90% 0.008 240);
-            --muted: oklch(54% 0.012 250);
-
-            --font-display: 'Space Grotesk', system-ui, sans-serif;
-            --font-body: 'Inter', system-ui, sans-serif;
-
-            --section-padding: clamp(80px, 10vh, 160px) 24px;
-            --max-width: 1200px;
-            
-            --transition-smooth: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* TWEAK_DEFAULTS = /*EDITMODE-BEGIN* / {
-            "accent": "oklch(58% 0.18 255)",
-            "radius": "24px",
-            "motionIntensity": "1"
-        } /*EDITMODE-END* /; */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-dark);
-            color: var(--fg-dark);
-            line-height: 1.5;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3 {
-            font-family: var(--font-display);
-            font-weight: 600;
-            letter-spacing: -0.04em;
-            line-height: 1;
-        }
-
-        p {
-            font-size: 1.125rem;
-            color: var(--muted);
-            max-width: 60ch;
-        }
-
-        .container {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* --- UTILS --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: var(--transition-smooth);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 16px 32px;
-            border-radius: 100px;
-            font-family: var(--font-display);
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            cursor: pointer;
-            border: 1px solid transparent;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background-color: var(--accent-blue);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px) scale(1.02);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 30px rgba(47, 111, 235, 0.2);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border-color: rgba(255, 255, 255, 0.2);
-            color: var(--fg-dark);
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: white;
-        }
-
-        /* --- NAV --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 32px 48px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference;
-        }
-
-        .logo {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: white;
-            letter-spacing: 0.2em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-        .nav-links a:hover {
-            opacity: 1;
-        }
-
-        /* --- HERO --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            background-color: var(--bg-dark);
-            overflow: hidden;
-        }
-
-        .hero-content {
-            max-width: 900px;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 10vw, 6.5rem);
-            margin-bottom: 32px;
-            color: white;
-        }
-
-        .hero p {
-            font-size: clamp(1.1rem, 2.5vw, 1.75rem);
-            margin-bottom: 48px;
-            max-width: 700px;
-            margin-inline: auto;
-            color: var(--muted);
-            line-height: 1.3;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        /* Fragments background */
-        .fragments {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .fragment {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            will-change: transform;
-        }
-
-        .fragment-header { display: flex; gap: 6px; margin-bottom: 4px; }
-        .fragment-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.2); }
-        .fragment-line { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; }
-        .fragment-chart { height: 40px; display: flex; align-items: flex-end; gap: 4px; }
-        .fragment-bar { flex: 1; background: var(--accent-blue); opacity: 0.4; border-radius: 2px 2px 0 0; }
-
-        /* --- THE PROBLEM --- */
-        .problem {
-            padding: var(--section-padding);
-            background-color: var(--bg-dark);
-            position: relative;
-            z-index: 10;
-        }
-
-        .problem-chaos {
-            height: 600px;
-            position: relative;
-            margin-top: 100px;
-        }
-
-        .chaos-item {
-            position: absolute;
-            padding: 24px 32px;
-            border: 1px solid rgba(220, 38, 38, 0.2);
-            background: rgba(220, 38, 38, 0.05);
-            border-radius: 16px;
-            color: var(--accent-red);
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1.25rem;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        /* --- THE INSIGHT --- */
-        .insight {
-            padding: var(--section-padding);
-            background-color: var(--bg-light);
-            color: var(--fg-light);
-            text-align: center;
-        }
-
-        .insight h2 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            margin-bottom: 24px;
-            color: var(--fg-light);
-        }
-
-        .insight .transition-text {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            color: var(--accent-blue);
-            font-weight: 600;
-        }
-
-        .insight-grid {
-            margin-top: 80px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        @media (max-width: 768px) {
-            .insight-grid {
-                grid-template-columns: repeat(2, 1fr);
-                margin-top: 56px;
-                gap: 12px;
-            }
-        }
-
-        .insight-item {
-            padding: clamp(28px, 5vw, 48px) 16px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: clamp(1rem, 2.2vw, 1.25rem);
-            text-align: center;
-            transition: var(--transition-smooth);
-        }
-
-        .insight-item:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-blue);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-        }
-
-        /* --- THE METHOD --- */
-        .method {
-            background-color: var(--bg-dark);
-            position: relative;
-        }
-
-        .sticky-section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: sticky;
-            top: 0;
-            overflow: hidden;
-        }
-
-        .method-step {
-            position: absolute;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            text-align: center;
-            max-width: 900px;
-            padding: 40px;
-        }
-
-        .method-step.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .method-step h3 {
-            font-size: 1rem;
-            color: var(--accent-yellow);
-            text-transform: uppercase;
-            letter-spacing: 0.4em;
-            margin-bottom: 24px;
-        }
-
-        .method-step p {
-            font-size: clamp(2rem, 5vw, 4rem);
-            color: white;
-            font-family: var(--font-display);
-            font-weight: 600;
-            line-height: 1.1;
-        }
-
-        .method-spacer { height: 500vh; }
-
-        /* --- PLANS --- */
-        .plans {
-            padding: var(--section-padding);
-            background-color: var(--bg-light);
-            color: var(--fg-light);
-        }
-
-        .plans-brand {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 32px;
-        }
-
-        .plans-brand img {
-            height: clamp(72px, 12vw, 110px);
-            width: auto;
-            display: block;
-        }
-
-        .footer-logo {
-            height: 64px;
-            width: auto;
-            max-width: 200px;
-            align-self: flex-start;
-            object-fit: contain;
-            object-position: left center;
-            filter: brightness(0) invert(1);
-            opacity: 0.95;
-        }
-
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 32px;
-            margin-top: 80px;
-        }
-
-        .plan-card {
-            background: white;
-            padding: 60px 48px;
-            border-radius: 40px;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            transition: var(--transition-smooth);
-        }
-
-        .plan-card h3 { font-size: 1.75rem; margin-bottom: 20px; }
-        .plan-price { font-size: 1.5rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 32px; }
-        .plan-card p { font-size: 1.1rem; color: var(--fg-light); opacity: 0.7; margin-bottom: 48px; flex-grow: 1; }
-        .plan-card .btn { width: 100%; justify-content: center; background: var(--fg-light); color: white; border-radius: 20px; }
-
-        .plan-card.featured { background: var(--fg-light); color: white; transform: scale(1.05); z-index: 5; border: none; }
-        .plan-card.featured p { color: white; opacity: 0.8; }
-        .plan-card.featured .plan-price { color: var(--accent-yellow); }
-        .plan-card.featured .btn { background: var(--accent-blue); }
-
-        /* --- RESULTS --- */
-        .results {
-            padding: var(--section-padding);
-            background-color: var(--bg-light);
-            color: var(--fg-light);
-            border-top: 1px solid var(--border);
-        }
-
-        .results-visual {
-            height: 500px;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 48px;
-            margin-top: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* --- FINAL CTA --- */
-        .final-cta {
-            padding: 160px 24px;
-            background-color: var(--bg-dark);
-            text-align: center;
-        }
-
-        .final-cta h2 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 40px; color: white; }
-
-        /* --- CONTACT FORM --- */
-        .contact-form {
-            max-width: 640px;
-            margin: 60px auto 0;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            text-align: left;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-field label {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.8rem;
-            font-family: var(--font-display);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .form-field input,
-        .form-field select,
-        .form-field textarea {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 12px;
-            padding: 16px 20px;
-            color: white;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            transition: border-color 0.3s, background 0.3s;
-            width: 100%;
-        }
-
-        .form-field input::placeholder,
-        .form-field textarea::placeholder {
-            color: rgba(255,255,255,0.3);
-        }
-
-        .form-field input:focus,
-        .form-field select:focus,
-        .form-field textarea:focus {
-            outline: none;
-            border-color: var(--accent-yellow);
-            background: rgba(255,255,255,0.08);
-        }
-
-        .form-field textarea {
-            min-height: 130px;
-            resize: vertical;
-            font-family: var(--font-body);
-        }
-
-        .form-field select option {
-            background: var(--bg-dark);
-            color: white;
-        }
-
-        .form-honeypot {
-            position: absolute;
-            left: -5000px;
-        }
-
-        .form-submit {
-            background-color: var(--accent-yellow);
-            color: var(--fg-light);
-            border: none;
-            padding: 20px 32px;
-            border-radius: 100px;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            margin-top: 16px;
-        }
-
-        .form-submit:hover {
-            transform: translateY(-2px) scale(1.02);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 30px rgba(235, 200, 47, 0.25);
-        }
-
-        @media (max-width: 640px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* --- TWEAKS --- */
-        .tweaks {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            padding: 8px 20px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            z-index: 1000;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            font-family: var(--font-display);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--fg-light);
-        }
-
-        .tweak-opt { display: flex; align-items: center; gap: 8px; cursor: pointer; }
-        .tweak-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 0 1px var(--border); }
-
-        footer {
-            padding: 100px 48px;
-            background-color: var(--bg-dark);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 60px;
-        }
-
-        /* --- HUMAN SECTION GRID --- */
-        .human-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .human-visual {
-            height: 400px;
-            background: #f0f0f0;
-            border-radius: 48px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        /* --- RESPONSIVE: tablet --- */
-        @media (max-width: 992px) {
-            footer { grid-template-columns: 1fr 1fr; }
-            .human-grid { gap: 48px; }
-        }
-
-        /* --- RESPONSIVE: mobile --- */
-        @media (max-width: 768px) {
-            nav { padding: 20px 24px; }
-            .nav-links { gap: 20px; }
-            .nav-links a { font-size: 0.7rem; }
-            .logo { font-size: 1rem; letter-spacing: 0.15em; }
-
-            section.problem,
-            section.insight,
-            section.plans,
-            section.results {
-                padding: clamp(60px, 9vh, 100px) 20px;
-            }
-
-            .final-cta { padding: 100px 20px; }
-
-            .hero-actions { flex-direction: column; align-items: stretch; padding: 0 20px; }
-            .hero-actions .btn { justify-content: center; }
-
-            .problem-chaos { height: 480px; margin-top: 60px; }
-            .chaos-item {
-                font-size: 0.95rem;
-                padding: 14px 18px;
-                max-width: 70%;
-                border-radius: 12px;
-            }
-
-            .method-step p { font-size: clamp(1.5rem, 7vw, 2.5rem); }
-            .method-step { padding: 24px; }
-
-            .plans-grid { gap: 20px; margin-top: 48px; }
-            .plan-card { padding: 40px 28px; }
-            .plan-card.featured { transform: scale(1); }
-
-            .results-visual {
-                height: 360px;
-                border-radius: 32px;
-            }
-            .results-visual > div {
-                width: 90% !important;
-                padding: 20px !important;
-                gap: 14px !important;
-            }
-
-            .human-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            .human-visual { height: 280px; border-radius: 32px; }
-
-            footer { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
-
-            .tweaks { display: none; }
-        }
-
-        /* --- RESPONSIVE: small mobile --- */
-        @media (max-width: 480px) {
-            .nav-links { display: none; }
-            .insight-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .insight-item { padding: 24px 12px; font-size: 0.95rem; border-radius: 18px; }
-            .plans-brand img { height: 64px; }
-            .footer-logo { height: 52px; }
-            .contact-form { gap: 16px; }
-            .form-field input,
-            .form-field select,
-            .form-field textarea { padding: 14px 16px; font-size: 0.95rem; }
-            .form-submit { padding: 18px 24px; font-size: 0.95rem; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plain Digital — Sistemas de adquisición de clientes · Bogotá</title>
+<meta name="description" content="Construimos y operamos sistemas de adquisición de clientes: tráfico, conversión, automatización y medición. Un número nuevo cada mes. Bogotá, Colombia.">
+<link rel="canonical" href="https://plaindigital.co/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#0A0A0A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Plain Digital">
+<meta property="og:locale" content="es_CO">
+<meta property="og:url" content="https://plaindigital.co/">
+<meta property="og:title" content="Plain Digital — Sin vueltas.">
+<meta property="og:description" content="Sistemas de adquisición de clientes. Un índice, una cifra junto a cada trabajo y cero nombres de cliente.">
+<meta property="og:image" content="https://plaindigital.co/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Plain Digital — Sin vueltas.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plain Digital — Sin vueltas.">
+<meta name="twitter:description" content="Sistemas de adquisición de clientes. Un índice, una cifra junto a cada trabajo y cero nombres de cliente.">
+<meta name="twitter:image" content="https://plaindigital.co/og-image.jpg">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Plain Digital","url":"https://plaindigital.co/","image":"https://plaindigital.co/og-image.jpg","email":"hola@plain.digital","description":"Sistemas de adquisición de clientes: tráfico, conversión, automatización y medición.","areaServed":{"@type":"Country","name":"Colombia"},"address":{"@type":"PostalAddress","addressLocality":"Bogotá","addressCountry":"CO"},"knowsLanguage":"es"}
+</script>
+
+<!-- ============================================================
+     MEDICIÓN — pegar aquí los identificadores reales.
+     Sustituir G-XXXXXXXXXX por el ID de GA4 y descomentar.
+     El evento de conversión se dispara en /thank-you.html.
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black: oklch(0% 0 0);
+  --bg: oklch(14.5% 0 0);
+  --surface: color-mix(in oklch, var(--bg), var(--fg) 5%);
+  --fg: oklch(100% 0 0);
+  --muted: oklch(70.6% 0 0);
+  --muted-2: color-mix(in oklch, var(--muted) 86%, var(--bg)); /* AA: 5,5:1 sobre --bg */
+  --border: color-mix(in oklch, var(--bg), var(--fg) 12%);
+  --border-soft: color-mix(in oklch, var(--bg), var(--fg) 7%);
+  --gold: oklch(84.3% 0.143 86);
+  --red: oklch(57% 0.209 25.4);
+  --cyan: oklch(65.5% 0.126 231.9);
+  --teal: oklch(46.4% 0.073 237.1);
+  --teal-text: oklch(70% 0.086 237.1);  /* variante legible sobre --surface */
+  --red-text: oklch(68% 0.176 25.4);    /* variante legible a 11-13px */
+  --font-display:'Archivo',"Helvetica Neue",Arial,sans-serif;
+  --font-body:'IBM Plex Sans',"Helvetica Neue",Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',Consolas,"Courier New",monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --wrap: clamp(24px, 5.5vw, 96px);
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.6;
+  background:var(--bg);
+  color:var(--muted);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+::selection{ background:var(--fg); color:var(--bg); }
+h1,h2,h3{ font-family:var(--font-display); color:var(--fg); font-weight:700; letter-spacing:-0.02em; line-height:.95; text-wrap:balance; }
+p{ text-wrap:pretty; }
+a{ color:var(--fg); text-decoration:none; }
+img{ max-width:100%; }
+section[id]{ scroll-margin-top:88px; }
+
+:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; }
+
+/* ---------- SKIP LINK ---------- */
+.skip-focus{
+  position:fixed; left:16px; top:16px; z-index:200;
+  background:var(--fg); color:var(--bg); padding:12px 20px;
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.1em;
+  transform:translateY(-200%); transition:transform .3s var(--ease);
+}
+.skip-focus:focus{ transform:translateY(0); }
+
+.container{ max-width:1440px; margin-inline:auto; padding-inline:var(--wrap); }
+
+/* ---------- META / KICKERS ---------- */
+.meta{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); }
+.kicker{ display:flex; align-items:baseline; gap:16px; font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); margin-bottom:clamp(28px,5vh,56px); }
+.kicker::before{ content:""; flex:none; width:56px; height:1px; background:var(--border); align-self:center; }
+
+.hairline{ height:1px; background:var(--border-soft); border:0; }
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.7em;
+  min-height:52px; padding:0 30px;
+  font-family:var(--font-mono); font-size:.8rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--fg); cursor:pointer; user-select:none;
+  border:1px solid transparent; background:transparent;
+  transition:background .35s var(--ease), color .35s var(--ease), border-color .35s var(--ease), transform .2s var(--ease);
+}
+.btn:active{ transform:translateY(1px); }
+.btn:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; }
+.btn-solid{ background:var(--fg); color:var(--bg); }
+.btn-solid:hover{ background:oklch(91% 0 0); }
+.btn-solid:focus-visible{ outline-color:var(--bg); box-shadow:0 0 0 3px var(--fg); }
+.btn-ghost{ border-color:color-mix(in oklch, var(--fg) 32%, transparent); }
+.btn-ghost:hover{ border-color:var(--fg); background:color-mix(in oklch, var(--fg) 6%, transparent); }
+
+/* ---------- NAV ---------- */
+.nav{ position:fixed; inset:0 0 auto; z-index:60; background:color-mix(in oklch, var(--bg) 82%, transparent); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid transparent; }
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ .nav{ background:var(--bg); } }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+.brand{ display:inline-flex; align-items:center; }
+.brand-logo{ height:28px; width:auto; display:block; filter:brightness(0) invert(1); }
+.nav-links{ display:flex; gap:clamp(16px,2.6vw,40px); align-items:center; }
+.nav-links a{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); transition:color .3s var(--ease); padding:8px 0; }
+.nav-links a:hover{ color:var(--fg); }
+.nav-links .nav-cta{ color:var(--fg); border-bottom:1px solid color-mix(in oklch, var(--fg) 40%, transparent); padding-bottom:3px; }
+
+/* ---------- HERO ---------- */
+.hero{ min-height:100svh; display:flex; flex-direction:column; justify-content:space-between; padding:120px 0 clamp(24px,4vh,44px); position:relative; }
+.hero-top{ display:flex; justify-content:space-between; align-items:baseline; gap:24px; flex-wrap:wrap; margin-bottom:clamp(48px,10vh,110px); }
+.hero-top .meta-right{ text-align:right; }
+.hero h1{ font-size:clamp(60px, 11.5vw, 168px); font-weight:900; letter-spacing:-0.03em; line-height:.9; max-width:9.5ch; margin-bottom:clamp(28px,4vh,48px); }
+.hero-sub{ max-width:56ch; font-size:clamp(18px,2vw,21px); line-height:1.55; color:var(--muted); margin-bottom:clamp(36px,6vh,64px); }
+.hero-sub strong{ color:var(--fg); font-weight:500; }
+.hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+.hero-cifras{ border-top:1px solid var(--border); margin-top:clamp(56px,10vh,120px); padding:clamp(18px,3vh,28px) 0; display:flex; gap:clamp(16px,4vw,56px); flex-wrap:wrap; }
+.hero-cifras span{ display:flex; align-items:baseline; gap:.6em; font-family:var(--font-mono); font-size:clamp(11px,1.3vw,13px); letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); }
+.hero-cifras b{ color:var(--gold); font-weight:500; font-size:1.15em; }
+
+/* ---------- SECTION FRAME ---------- */
+.section{ padding:clamp(120px,24vh,260px) 0; }
+.section-head h2{ font-size:clamp(42px,6.2vw,92px); letter-spacing:-0.03em; line-height:.98; max-width:20ch; }
+.section-head .lede{ max-width:52ch; margin-top:clamp(20px,3vh,36px); font-size:clamp(17px,1.6vw,19px); color:var(--muted); }
+
+/* ---------- LIVING INDEX ---------- */
+.portfolio{ position:relative; overflow:hidden; }
+.portfolio-fill{ position:absolute; inset:0; z-index:0; }
+.pfill-plate{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .45s var(--ease); }
+.pfill-plate::after{ content:""; position:absolute; inset:0; background:var(--black); opacity:.58; }
+.pfill-plate .plate{ transform:scale(1.18); }
+.portfolio[data-hover="1"] .pfill-plate-1{ opacity:1; }
+.portfolio[data-hover="2"] .pfill-plate-2{ opacity:1; }
+.portfolio[data-hover="3"] .pfill-plate-3{ opacity:1; }
+.portfolio[data-hover="4"] .pfill-plate-4{ opacity:1; }
+.portfolio[data-hover="5"] .pfill-plate-5{ opacity:1; }
+.portfolio-inner{ position:relative; z-index:1; }
+.portfolio-head{ padding-bottom:clamp(48px,8vh,96px); }
+
+.index{ border-top:1px solid var(--border); }
+.index-row{
+  display:grid; grid-template-columns:64px 1fr minmax(200px,auto) auto; gap:clamp(16px,3vw,40px);
+  align-items:center; padding:clamp(26px,4vh,44px) 0;
+  border-bottom:1px solid var(--border-soft);
+  cursor:pointer; position:relative;
+  transition:opacity .4s var(--ease);
+}
+.index-row .i-num{ font-family:var(--font-mono); font-size:13px; letter-spacing:.1em; color:var(--muted-2); }
+.index-row .i-desc{ font-family:var(--font-display); font-weight:700; font-size:clamp(26px,4.2vw,54px); letter-spacing:-0.02em; line-height:1; color:var(--fg); transition:color .4s var(--ease), transform .4s var(--ease); }
+.index-row .i-loc{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); }
+.index-row .i-fig{ font-family:var(--font-mono); font-size:clamp(14px,1.6vw,19px); letter-spacing:.06em; text-transform:uppercase; text-align:right; white-space:nowrap; transition:opacity .4s var(--ease); }
+.index-row .i-fig b{ color:var(--gold); font-weight:500; }
+.index-row .i-fig.fig-text{ color:var(--muted); }
+.index-row .i-hint{ position:absolute; right:0; top:-1px; transform:translateY(-100%); font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); opacity:0; transition:opacity .3s var(--ease); padding:2px 0; }
+.portfolio.has-hover .index-row{ opacity:.25; }
+.portfolio.has-hover .index-row.hovered{ opacity:1; }
+.portfolio.has-hover .index-row.hovered .i-desc{ color:var(--fg); transform:translateX(10px); }
+.portfolio.has-hover .index-row.hovered .i-num{ color:var(--fg); }
+.index-row:hover .i-hint{ opacity:1; }
+.index-row:focus-visible{ outline-offset:-3px; }
+
+/* rows 04-05: descriptor sin cifra → texto en blanco para equilibrio */
+.index-row .i-fig.fig-text b{ color:var(--fg); font-weight:500; }
+
+/* ---------- CASE PANEL ---------- */
+.row-expand{ display:none; }
+.case-panel .case-head{ display:flex; justify-content:space-between; align-items:center; gap:24px; margin-bottom:clamp(28px,5vh,56px); }
+.case-kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); }
+.case-close{ font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg); background:none; border:0; border-bottom:1px solid var(--border); cursor:pointer; padding:4px 0; min-height:32px; transition:border-color .3s var(--ease); }
+.case-close:hover{ border-color:var(--fg); }
+.case-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(32px,5vw,88px); align-items:start; }
+.case-grid > *{ min-width:0; }
+.case-block{ margin-bottom:clamp(24px,4vh,40px); }
+.case-label{ display:block; font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); margin-bottom:14px; }
+.case-block p{ font-size:clamp(16px,1.5vw,18px); line-height:1.65; color:var(--muted); max-width:52ch; }
+.case-number{ margin-top:clamp(40px,8vh,88px); border-top:1px solid var(--border); padding-top:clamp(28px,5vh,56px); }
+.cn-fig{ font-family:var(--font-display); font-weight:900; font-size:clamp(96px,15vw,210px); line-height:.85; letter-spacing:-0.03em; color:var(--gold); }
+.cn-detail{ margin-top:clamp(16px,3vh,28px); font-family:var(--font-mono); font-size:clamp(12px,1.3vw,14px); letter-spacing:.08em; text-transform:uppercase; color:var(--muted); max-width:70ch; }
+
+/* ---------- CASE OVERLAY ---------- */
+.case-overlay{ position:fixed; inset:0; z-index:80; background:var(--black); overflow-y:auto; opacity:0; visibility:hidden; transition:opacity .4s var(--ease), visibility 0s linear .4s; }
+.case-overlay.active{ opacity:1; visibility:visible; transition:opacity .4s var(--ease); }
+.co-inner{ max-width:1440px; margin-inline:auto; padding:clamp(88px,12vh,140px) var(--wrap) clamp(80px,12vh,140px); }
+body.case-open{ overflow:hidden; }
+
+/* ---------- WORK PLATES ---------- */
+.plate{ width:min(880px,100%); max-width:100%; background:var(--surface); border:1px solid var(--border-soft); font-family:var(--font-mono); font-size:12px; color:var(--muted-2); letter-spacing:.04em; }
+.pl-head{ display:flex; align-items:center; gap:16px; padding:18px 22px; border-bottom:1px solid var(--border-soft); }
+.pl-redact{ display:inline-block; height:12px; background:color-mix(in oklch, var(--fg) 15%, transparent); flex:none; }
+.pl-redact.lg{ height:22px; }
+.pl-title{ font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pl-tag{ margin-left:auto; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); white-space:nowrap; }
+.pl-body{ display:flex; gap:clamp(20px,3vw,44px); padding:clamp(22px,3vw,34px) 22px; align-items:stretch; }
+.pl-list{ flex:1; display:flex; flex-direction:column; justify-content:center; gap:14px; min-width:0; }
+.pl-li{ display:flex; align-items:center; gap:14px; }
+.pl-li .pl-redact{ width:34%; min-width:110px; }
+.pl-li b{ color:var(--fg); font-weight:500; font-size:12px; letter-spacing:.08em; }
+.pl-li i{ font-style:normal; font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-left:auto; }
+.pl-li i.ok{ color:var(--muted-2); }
+.pl-fig{ border-left:1px solid var(--border-soft); padding-left:clamp(20px,3vw,40px); display:flex; flex-direction:column; justify-content:center; min-width:220px; }
+.pl-fig-num{ font-size:clamp(44px,5vw,64px); font-weight:500; line-height:1; letter-spacing:-.02em; color:var(--fg); }
+.pl-fig-lbl{ margin-top:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg); }
+.pl-fig-sub{ margin-top:6px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); }
+.pl-foot{ display:flex; justify-content:space-between; gap:16px; padding:14px 22px; border-top:1px solid var(--border-soft); letter-spacing:.1em; text-transform:uppercase; font-size:11px; }
+.pl-cols{ flex:1; display:flex; gap:clamp(16px,2.5vw,36px); min-width:0; }
+.pl-arts{ flex:1.4; display:flex; flex-direction:column; gap:16px; justify-content:center; min-width:0; }
+.pl-art{ border-bottom:1px solid var(--border-soft); padding-bottom:14px; display:flex; flex-direction:column; gap:8px; }
+.pl-art:last-child{ border-bottom:0; padding-bottom:0; }
+.pl-art .pl-headline{ height:14px; background:color-mix(in oklch, var(--fg) 26%, transparent); }
+.pl-art .pl-byline{ height:9px; background:color-mix(in oklch, var(--fg) 12%, transparent); width:46%; }
+.pl-art .pl-cat{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); }
+.pl-mod{ border:1px solid var(--border-soft); padding:16px 20px; letter-spacing:.1em; text-transform:uppercase; font-size:12px; color:var(--fg); margin-bottom:14px; }
+.pl-sess{ display:flex; flex-direction:column; border-top:1px solid var(--border-soft); }
+.pl-sess div{ display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid var(--border-soft); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); }
+.pl-sess div b{ color:var(--fg); font-weight:500; }
+.pl-rail{ display:flex; flex-direction:column; justify-content:center; gap:10px; border-right:1px solid var(--border-soft); padding-right:clamp(18px,2.5vw,32px); }
+.pl-rail span{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); padding:6px 0; }
+.pl-rail span.on{ color:var(--fg); border-bottom:1px solid var(--border); }
+.pl-rows{ flex:1; display:flex; flex-direction:column; justify-content:center; gap:12px; min-width:0; }
+.pl-row{ display:flex; align-items:center; gap:14px; }
+.pl-row .pl-redact{ width:38%; min-width:120px; }
+.pl-lockup{ display:flex; flex-direction:column; gap:14px; align-items:flex-start; }
+.pl-lockup .pl-redact{ height:26px; }
+.pl-swatches{ display:flex; gap:10px; margin-top:18px; }
+.pl-swatch{ width:34px; height:34px; border:1px solid var(--border); }
+.pl-bignum{ font-family:var(--font-mono); font-size:clamp(28px,3.4vw,44px); font-weight:500; letter-spacing:-.01em; color:var(--fg); line-height:1.05; }
+
+/* accents por caso */
+.plate-01 .pl-fig-num, .plate-01 .pl-li b{ color:var(--red); }
+.plate-02 .pl-fig-num, .plate-02 .pl-art .pl-cat{ color:var(--cyan); }
+.plate-03 .pl-fig-num, .plate-03 .pl-mod, .plate-03 .pl-sess div b{ color:var(--teal-text); }
+.plate-03 .pl-mod{ border-color:color-mix(in oklch, var(--teal) 35%, transparent); }
+.plate-02 .pl-fig-num{ color:var(--cyan); }
+
+/* ---------- REPORT ---------- */
+.report-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(40px,6vw,120px); align-items:start; }
+.report-grid > *{ min-width:0; }
+.report-piece{ margin-top:clamp(48px,8vh,96px); min-width:0; }
+.rp-tabs{ display:flex; gap:24px; margin-bottom:0; padding:0 0 16px; }
+.rp-tab{ font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); background:none; border:0; border-bottom:1px solid transparent; cursor:pointer; padding:8px 0; min-height:40px; transition:color .3s var(--ease), border-color .3s var(--ease); }
+.rp-tab:hover{ color:var(--fg); }
+.rp-tab.active{ color:var(--fg); border-bottom-color:var(--fg); }
+.rp-sheet{ display:grid; grid-template-columns:minmax(0,1fr); border:1px solid var(--border); background:var(--surface); margin-top:0; min-width:0; }
+.rp-page{ grid-area:1/1; min-width:0; padding:clamp(24px,3.4vw,44px); opacity:0; transform:translateX(18px); transition:opacity .35s var(--ease), transform .35s var(--ease); pointer-events:none; }
+.rp-page.active{ opacity:1; transform:none; pointer-events:auto; }
+.rp-mast{ display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border-soft); padding-bottom:16px; }
+.rp-mast .pl-redact{ width:130px; height:14px; }
+.rp-mast .rp-per{ margin-left:auto; font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); }
+.rp-big{ margin:clamp(28px,5vh,48px) 0 clamp(16px,3vh,24px); }
+.rp-big .rp-amount{ font-family:var(--font-display); font-weight:900; font-size:clamp(56px,8vw,104px); line-height:1; letter-spacing:-.03em; color:var(--gold); }
+.rp-big .rp-amount-note{ margin-top:12px; font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg); }
+.rp-rows{ display:flex; flex-direction:column; }
+.rp-rows div{ display:flex; justify-content:space-between; gap:20px; padding:14px 0; border-bottom:1px solid var(--border-soft); font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted-2); }
+.rp-rows div b{ color:var(--fg); font-weight:500; }
+.rp-note{ margin-top:20px; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted-2); }
+.rp-table-wrap{ width:100%; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.rp-table{ width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; }
+.rp-table th{ text-align:left; font-weight:500; color:var(--muted-2); text-transform:uppercase; font-size:11px; letter-spacing:.12em; padding:10px 14px; border-bottom:1px solid var(--border); }
+.rp-table td{ padding:14px; border-bottom:1px solid var(--border-soft); color:var(--muted); vertical-align:top; }
+.rp-table td b{ color:var(--fg); font-weight:500; }
+.rp-table tr.err td{ color:var(--red-text); }
+.rp-table tr.err td b{ color:var(--red-text); }
+.rp-table tr.err td:first-child{ box-shadow:inset 3px 0 0 var(--red); }
+
+/* ---------- SYSTEM ---------- */
+.system-head{ font-size:clamp(34px,5.2vw,74px); font-weight:900; letter-spacing:-0.03em; line-height:1.02; color:var(--fg); max-width:24ch; }
+.system-sub{ margin-top:clamp(28px,5vh,48px); max-width:36ch; font-family:var(--font-display); font-weight:700; font-size:clamp(24px,3.2vw,40px); line-height:1.15; letter-spacing:-0.01em; color:var(--muted); }
+
+/* ---------- BOOST ---------- */
+.boost-table{ border-top:1px solid var(--border); }
+.bt-rowgroup{ display:contents; }
+.bt-head, .bt-row{ display:grid; grid-template-columns:minmax(200px,1fr) 1.1fr 1.1fr; gap:clamp(20px,3vw,48px); }
+.bt-head{ padding:18px 0; border-bottom:1px solid var(--border); }
+.bt-head span{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); }
+.bt-row{ padding:clamp(26px,4vh,44px) 0; border-bottom:1px solid var(--border-soft); transition:background .35s var(--ease), transform .35s var(--ease); }
+.bt-row:hover{ background:color-mix(in oklch, var(--fg) 3%, transparent); transform:translateX(8px); }
+.bt-prog{ font-family:var(--font-display); font-weight:700; font-size:clamp(24px,3vw,38px); letter-spacing:-0.02em; line-height:1; color:var(--fg); display:flex; align-items:baseline; gap:14px; }
+.bt-prog .n{ font-family:var(--font-mono); font-weight:400; font-size:12px; letter-spacing:.12em; color:var(--muted-2); }
+.bt-for{ font-size:clamp(15px,1.5vw,17px); color:var(--muted); max-width:36ch; align-self:center; }
+.bt-res{ font-size:clamp(15px,1.5vw,17px); color:var(--fg); max-width:40ch; align-self:center; }
+.boost-note{ margin-top:clamp(24px,4vh,40px); font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); }
+.boost-foot{ margin-top:clamp(40px,7vh,64px); }
+
+/* ---------- CONTACT ---------- */
+.contact-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(40px,6vw,120px); align-items:start; }
+.contact-grid > *{ min-width:0; }
+.contact-form{ margin-top:clamp(36px,6vh,64px); }
+.cf-field{ margin-bottom:clamp(24px,4vh,40px); }
+.cf-label{ display:block; font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted-2); margin-bottom:12px; }
+.cf-input, .cf-select{
+  width:100%; min-height:52px; background:transparent; border:0; border-bottom:1px solid var(--border);
+  font-family:var(--font-mono); font-size:16px; letter-spacing:.02em; color:var(--fg);
+  padding:12px 0; border-radius:0; outline:none; -webkit-appearance:none; appearance:none;
+  transition:border-color .3s var(--ease);
+}
+.cf-input::placeholder{ color:color-mix(in oklch, var(--muted-2) 70%, transparent); }
+.cf-input:focus, .cf-select:focus{ border-bottom-color:var(--fg); }
+.cf-input:user-invalid, .cf-select:user-invalid{ border-bottom-color:var(--red); }
+.cf-input:focus-visible, .cf-select:focus-visible{ outline:none; }
+.cf-select{ cursor:pointer; }
+.cf-select option{ background:var(--bg); color:var(--fg); }
+.cf-select-wrap{ position:relative; }
+.cf-select-wrap::after{ content:"↓"; position:absolute; right:0; bottom:14px; font-family:var(--font-mono); font-size:12px; color:var(--muted-2); pointer-events:none; }
+.cf-hp{ position:absolute; left:-5000px; }
+.cf-submit{ margin-top:clamp(20px,3vh,28px); }
+.cf-consent{ display:flex; align-items:flex-start; gap:12px; margin-top:clamp(20px,3vh,28px); }
+.cf-check{ flex:none; width:20px; height:20px; margin-top:2px; accent-color:var(--fg); cursor:pointer; }
+.cf-check:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; }
+.cf-consent label{ font-size:14px; line-height:1.6; color:var(--muted); cursor:pointer; }
+.cf-consent a{ color:var(--fg); border-bottom:1px solid color-mix(in oklch, var(--fg) 40%, transparent); }
+.cf-consent a:hover{ border-bottom-color:var(--fg); }
+.contact-verif{ margin-top:clamp(32px,5vh,56px); border-top:1px solid var(--border); padding-top:clamp(20px,3vh,28px); font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); line-height:1.9; }
+.contact-verif b{ color:var(--fg); font-weight:500; }
+.contact-verif span{ display:block; }
+
+/* ---------- FOOTER (claro) ---------- */
+.footer-light{ background:oklch(97% 0 0); border-top:1px solid oklch(88% 0 0); padding:clamp(72px,12vh,128px) 0 clamp(36px,6vh,56px); text-align:center; }
+.footer-light-inner{ display:flex; flex-direction:column; align-items:center; }
+.footer-light-logo{ height:clamp(84px,10.5vw,126px); width:auto; display:block; }
+.footer-light-tag{ margin-top:clamp(20px,3vh,32px); font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:oklch(42% 0 0); max-width:60ch; }
+.footer-light-rule{ width:100%; height:1px; background:oklch(88% 0 0); margin:clamp(32px,5vh,48px) 0 0; }
+.footer-light-links{ display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(16px,2.4vw,40px); padding:clamp(24px,4vh,36px) 0; }
+.footer-light-links a{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:oklch(22% 0 0); border-bottom:1px solid oklch(78% 0 0); padding-bottom:3px; transition:border-color .3s var(--ease); }
+.footer-light-links a:hover{ border-color:oklch(22% 0 0); }
+.footer-light-links a:focus-visible{ outline:2px solid oklch(22% 0 0); }
+.footer-light-social{ display:flex; gap:14px; margin-top:clamp(16px,3vh,24px); }
+.footer-light-social a{ width:48px; height:48px; display:flex; align-items:center; justify-content:center; border:1px solid oklch(80% 0 0); color:oklch(22% 0 0); transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease); }
+.footer-light-social a:hover{ background:oklch(22% 0 0); color:oklch(97% 0 0); border-color:oklch(22% 0 0); }
+.footer-light-social a:focus-visible{ outline:2px solid oklch(22% 0 0); outline-offset:2px; }
+.footer-light-social svg{ width:20px; height:20px; }
+.footer-light-meta{ margin-top:clamp(32px,5vh,48px); display:flex; justify-content:center; gap:24px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
+.footer-light-meta a{ color:oklch(22% 0 0); }
+.footer-light-meta span{ color:oklch(42% 0 0); }
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 900px){
+  .nav-links a.hide-m{ display:none; }
+  .hero{ padding-top:96px; }
+  .report-grid, .contact-grid, .case-grid{ grid-template-columns:minmax(0,1fr); }
+  .case-overlay .case-grid{ gap:clamp(28px,5vh,48px); }
+  .co-inner{ max-width:100%; }
+}
+
+/* CTA fijo en movil: el formulario esta a cinco pantallas de scroll */
+.mobile-cta{ display:none; }
+@media (max-width: 900px){
+  .mobile-cta{
+    display:flex; position:fixed; z-index:70; left:0; right:0; bottom:0;
+    align-items:center; justify-content:center; gap:.6em;
+    min-height:56px; padding:0 20px calc(env(safe-area-inset-bottom, 0px));
+    background:var(--fg); color:var(--bg);
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    border-top:1px solid var(--bg);
+  }
+  .mobile-cta:focus-visible{ outline:2px solid var(--fg); outline-offset:-4px; }
+  body{ padding-bottom:56px; }
+  body.case-open .mobile-cta{ display:none; }
+  .footer-light{ padding-bottom:clamp(48px,8vh,72px); }
+}
+@media (hover:none), (pointer:coarse){
+  .index-row{ grid-template-columns:56px 1fr; row-gap:12px; }
+  .index-row .i-loc{ grid-column:2; margin-top:-8px; }
+  .index-row .i-fig{ grid-column:2; text-align:left; white-space:normal; }
+  .index-row .i-hint{ display:none; }
+  .index-row .i-desc{ font-size:clamp(24px,7vw,34px); }
+  .index-row.open{ cursor:default; }
+  .index-row.open .i-desc{ color:var(--fg); }
+  .row-expand{ grid-column:1/-1; border-top:1px solid var(--border); padding-top:clamp(24px,4vh,40px); margin-top:8px; }
+  .index-row.open .row-expand{ display:block; }
+  .case-panel .case-close{ display:none; }
+  .bt-head{ display:none; }
+  .bt-row{ grid-template-columns:1fr; gap:14px; padding:clamp(26px,4vh,36px) 0; }
+  .bt-row .bt-prog{ order:0; }
+  .bt-row .bt-for{ order:2; }
+  .bt-row .bt-res{ order:1; }
+  .hero-cifras{ flex-direction:column; gap:14px; }
+  .pfill-plate{ display:none; }
+  .portfolio-fill{ display:none; }
+}
+@media (max-width: 560px){
+  .nav-links{ gap:14px; }
+  .hero-top{ flex-direction:column; align-items:flex-start; gap:8px; }
+  .hero-top .meta-right{ text-align:left; }
+  .hero h1{ font-size:clamp(52px,15vw,76px); }
+  .hero-sub{ font-size:17px; }
+  .btn{ width:100%; }
+  .hero-actions .btn{ width:100%; }
+  .cn-fig{ font-size:min(24vw, 96px); }
+  .rp-mast .rp-per{ display:none; }
+}
+@media (max-width: 640px){
+  .pl-body{ flex-direction:column; }
+  .pl-cols{ flex-direction:column; }
+  .pl-fig{ border-left:0; border-top:1px solid var(--border-soft); padding-left:0; padding-top:clamp(16px,2.5vw,22px); min-width:0; }
+  .pl-rail{ flex-direction:row; border-right:0; border-bottom:1px solid var(--border-soft); padding-right:0; padding-bottom:12px; flex-wrap:wrap; }
+  .pl-rail span{ padding:4px 12px 4px 0; }
+  .pl-foot{ flex-direction:column; gap:6px; align-items:flex-start; }
+  .rp-table{ display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .rp-table th, .rp-table td{ white-space:nowrap; }
+}
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
+}
+</style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">PLAIN DIGITAL</div>
-        <div class="nav-links">
-            <a href="#metodo">Método</a>
-            <a href="#planes">Planes</a>
-            <a href="#contacto">Contacto</a>
-        </div>
+<a href="#trabajo" class="skip-focus" data-od-id="skip-focus">Saltar al contenido</a>
+
+<header class="nav" data-od-id="site-nav">
+  <div class="container nav-inner">
+    <a href="#portada" class="brand" data-od-id="brand-logo" aria-label="Plain Digital — inicio">
+      <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="brand-logo">
+    </a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#trabajo">Índice</a>
+      <a href="#reporte" class="hide-m">Reporte</a>
+      <a href="#sistema" class="hide-m">Sistema</a>
+      <a href="#boost" class="hide-m">Boost</a>
+      <a href="#contacto" class="nav-cta">Diagnóstico</a>
     </nav>
+  </div>
+</header>
 
-    <!-- SECTION 1: HERO -->
-    <section class="hero" id="inicio">
-        <div class="fragments" id="hero-fragments"></div>
-        <div class="container hero-content">
-            <h1 class="reveal" data-od-id="hero-headline">Conectamos estrategia, creatividad y tecnología.</h1>
-            <p class="reveal">Ayudamos a negocios y startups a crecer con sistemas digitales diseñados para generar ventas reales.</p>
-            <div class="hero-actions reveal">
-                <a href="#contacto" class="btn btn-primary">Construyamos tu estrategia</a>
-                <a href="#planes" class="btn btn-secondary">Explorar planes</a>
-            </div>
-        </div>
-    </section>
+<main>
 
-    <!-- SECTION 2: THE PROBLEM -->
-    <section class="problem">
-        <div class="container">
-            <div style="max-width: 800px;">
-                <h2 class="reveal">Muchos negocios publican todos los días.</h2>
-                <div class="reveal" style="font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--accent-red); margin-top: 32px; font-weight: 600; font-family: var(--font-display); line-height: 1.15;">Pocos entienden realmente por qué no venden.</div>
-            </div>
-            
-            <div class="problem-chaos" id="problem-chaos">
-                <!-- Chaos items generated by JS -->
-            </div>
-
-            <div class="reveal" style="margin-top: 100px; max-width: 500px;">
-                <p>Redes desconectadas. Campañas improvisadas. Páginas que no convierten. Marketing sin dirección.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 3: THE INSIGHT -->
-    <section class="insight">
-        <div class="container">
-            <h2 class="reveal">El problema no es publicar menos.</h2>
-            <div class="transition-text reveal">Es tener una estrategia que conecte todo.</div>
-            
-            <div class="insight-grid">
-                <div class="insight-item reveal">Branding</div>
-                <div class="insight-item reveal">Content</div>
-                <div class="insight-item reveal">Ads</div>
-                <div class="insight-item reveal">CRM</div>
-                <div class="insight-item reveal">Web</div>
-                <div class="insight-item reveal">Funnels</div>
-                <div class="insight-item reveal">Analytics</div>
-                <div class="insight-item reveal">Automatización</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 4: THE PLAIN METHOD™ -->
-    <section class="method" id="metodo">
-        <div class="sticky-section">
-            <div class="method-step" data-step="1">
-                <h3>Step 1 — Analizar</h3>
-                <p>“Antes de diseñar una campaña, entendemos el negocio.”</p>
-            </div>
-            <div class="method-step" data-step="2">
-                <h3>Step 2 — Diseñar</h3>
-                <p>“Cada negocio necesita una estrategia diferente.”</p>
-            </div>
-            <div class="method-step" data-step="3">
-                <h3>Step 3 — Construir</h3>
-                <p>“Creamos el ecosistema digital correcto para cada marca.”</p>
-            </div>
-            <div class="method-step" data-step="4">
-                <h3>Step 4 — Conectar</h3>
-                <p>“Todo debe trabajar junto.”</p>
-            </div>
-            <div class="method-step" data-step="5">
-                <h3>Step 5 — Escalar</h3>
-                <p>“El objetivo no es publicar más. Es crecer mejor.”</p>
-            </div>
-        </div>
-        <div class="method-spacer"></div>
-    </section>
-
-    <!-- SECTION 5: PLANS -->
-    <section class="plans" id="planes">
-        <div class="container">
-            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <div class="plans-brand reveal">
-                    <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" />
-                </div>
-                <h2 class="reveal">No todos los negocios necesitan lo mismo.</h2>
-                <p class="reveal" style="margin-top: 24px; margin-inline: auto;">Diseñamos estrategias según los objetivos reales de cada marca.</p>
-            </div>
-            <div class="plans-grid">
-                <div class="plan-card reveal">
-                    <h3>PLAIN START</h3>
-                    <div class="plan-price">Desde $1M COP / mes</div>
-                    <p>Para negocios que necesitan dejar de improvisar digitalmente.</p>
-                    <a href="#contacto" class="btn">Empezar</a>
-                </div>
-                <div class="plan-card featured reveal">
-                    <h3>PLAIN GROWTH</h3>
-                    <div class="plan-price">Desde $2.5M COP / mes</div>
-                    <p>Para marcas que quieren crecer con estructura, automatización y estrategia.</p>
-                    <a href="#contacto" class="btn">Escalar mi negocio</a>
-                </div>
-                <div class="plan-card reveal">
-                    <h3>PLAIN CUSTOM</h3>
-                    <div class="plan-price">Personalizado</div>
-                    <p>Diseñado alrededor de las necesidades reales de tu negocio.</p>
-                    <a href="#contacto" class="btn">Construyamos algo</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 6: RESULTS -->
-    <section class="results">
-        <div class="container">
-            <h2 class="reveal" style="text-align: center;">El marketing debería sentirse menos caótico.</h2>
-            <div class="results-visual reveal">
-                <!-- Abstract dashboard representation -->
-                <div style="width: 80%; height: 60%; background: #f9f9f9; border-radius: 24px; border: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; gap: 24px;">
-                    <div style="display: flex; gap: 16px;">
-                        <div style="flex: 1; height: 100px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
-                            <div style="width: 40px; height: 8px; background: var(--accent-blue); border-radius: 4px; margin-bottom: 12px;"></div>
-                            <div style="width: 80px; height: 20px; background: #eee; border-radius: 4px;"></div>
-                        </div>
-                        <div style="flex: 1; height: 100px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
-                            <div style="width: 40px; height: 8px; background: var(--accent-red); border-radius: 4px; margin-bottom: 12px;"></div>
-                            <div style="width: 80px; height: 20px; background: #eee; border-radius: 4px;"></div>
-                        </div>
-                        <div style="flex: 1; height: 100px; background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
-                            <div style="width: 40px; height: 8px; background: var(--accent-yellow); border-radius: 4px; margin-bottom: 12px;"></div>
-                            <div style="width: 80px; height: 20px; background: #eee; border-radius: 4px;"></div>
-                        </div>
-                    </div>
-                    <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: flex-end; gap: 8px; padding: 20px;">
-                        <div style="flex: 1; height: 30%; background: var(--accent-blue); opacity: 0.2; border-radius: 4px;"></div>
-                        <div style="flex: 1; height: 50%; background: var(--accent-blue); opacity: 0.4; border-radius: 4px;"></div>
-                        <div style="flex: 1; height: 80%; background: var(--accent-blue); opacity: 0.6; border-radius: 4px;"></div>
-                        <div style="flex: 1; height: 60%; background: var(--accent-blue); opacity: 0.8; border-radius: 4px;"></div>
-                        <div style="flex: 1; height: 90%; background: var(--accent-blue); border-radius: 4px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 7: HUMAN -->
-    <section class="results" style="border: none; padding-top: 0;">
-        <div class="container">
-            <div class="human-grid">
-                <div>
-                    <h2 class="reveal">Desde negocios locales hasta startups.</h2>
-                    <p class="reveal" style="margin-top: 32px;">Plain Digital nació para ayudar a marcas reales a competir con estrategia, creatividad y tecnología.</p>
-                </div>
-                <div class="human-visual reveal">
-                     <div style="width: 200px; height: 200px; background: var(--accent-yellow); border-radius: 50%; filter: blur(60px); opacity: 0.4;"></div>
-                     <div style="width: 150px; height: 150px; background: var(--accent-blue); border-radius: 50%; filter: blur(50px); opacity: 0.2; transform: translate(50px, -50px);"></div>
-                     <span style="z-index: 2; font-family: var(--font-display); font-weight: 700; color: #333;">CRECIMIENTO HUMANO</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 8: FINAL CTA + FORM -->
-    <section class="final-cta" id="contacto">
-        <div class="container">
-            <h2 class="reveal">Tu negocio no necesita más ruido.</h2>
-            <div class="reveal" style="font-size: clamp(2rem, 6vw, 4rem); color: var(--accent-yellow); font-family: var(--font-display); font-weight: 600; margin-bottom: 20px;">Necesita una estrategia.</div>
-            <p class="reveal" style="margin: 0 auto 20px; color: var(--muted); text-align: center;">Cuéntanos qué necesita tu negocio. Te respondemos en menos de 24h con un diagnóstico inicial.</p>
-
-            <form
-                name="contacto"
-                method="POST"
-                action="/thank-you.html"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
-                class="contact-form reveal">
-                <input type="hidden" name="form-name" value="contacto" />
-                <p class="form-honeypot">
-                    <label>No llenar si eres humano: <input name="bot-field" /></label>
-                </p>
-
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo" />
-                    </div>
-                    <div class="form-field">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="tu@email.com" />
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="telefono">Teléfono / WhatsApp</label>
-                        <input type="tel" id="telefono" name="telefono" required placeholder="+57 300 000 0000" />
-                    </div>
-                    <div class="form-field">
-                        <label for="empresa">Empresa (opcional)</label>
-                        <input type="text" id="empresa" name="empresa" placeholder="Nombre del negocio" />
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-field">
-                        <label for="programa">¿Qué necesitas?</label>
-                        <select id="programa" name="programa" required>
-                            <option value="">Selecciona un programa</option>
-                            <option value="Plain Start">Plain Start — Empezar bien</option>
-                            <option value="Plain Growth">Plain Growth — Escalar</option>
-                            <option value="Plain Custom">Plain Custom — A la medida</option>
-                            <option value="No estoy seguro">No estoy seguro, ayúdame</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label for="presupuesto">Presupuesto mensual</label>
-                        <select id="presupuesto" name="presupuesto" required>
-                            <option value="">Selecciona un rango</option>
-                            <option value="Menos de 1M COP">Menos de $1M COP</option>
-                            <option value="1M - 3M COP">$1M - $3M COP</option>
-                            <option value="3M - 5M COP">$3M - $5M COP</option>
-                            <option value="Más de 5M COP">Más de $5M COP</option>
-                            <option value="Por definir">Por definir</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-field">
-                    <label for="mensaje">Cuéntanos sobre tu negocio</label>
-                    <textarea id="mensaje" name="mensaje" required placeholder="¿Qué hacen? ¿Qué problema están enfrentando? ¿Qué intentaron antes?"></textarea>
-                </div>
-
-                <button type="submit" class="form-submit">Enviar y agendar diagnóstico →</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div style="display: flex; flex-direction: column; gap: 24px;">
-            <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="footer-logo" />
-            <p style="font-size: 0.9rem;">Digital Growth Agency. Conectando estrategia, creatividad y tecnología.</p>
-        </div>
-        <div>
-            <h4 style="color: white; margin-bottom: 24px; font-family: var(--font-display);">Estrategia</h4>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-                <li><a href="#metodo" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Método</a></li>
-                <li><a href="#planes" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Planes</a></li>
-                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Resultados</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4 style="color: white; margin-bottom: 24px; font-family: var(--font-display);">Contacto</h4>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">hola@plain.digital</a></li>
-                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Instagram</a></li>
-                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">LinkedIn</a></li>
-            </ul>
-        </div>
-        <div>
-            <h4 style="color: white; margin-bottom: 24px; font-family: var(--font-display);">Legal</h4>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Privacidad</a></li>
-                <li><a href="#" style="color: var(--muted); text-decoration: none; font-size: 0.9rem;">Términos</a></li>
-            </ul>
-        </div>
-    </footer>
-
-    <div class="tweaks">
-        <span>Accent</span>
-        <div class="tweak-opt" onclick="setAccent('oklch(58% 0.18 255)')">
-            <div class="tweak-dot" style="background: oklch(58% 0.18 255);"></div>
-        </div>
-        <div class="tweak-opt" onclick="setAccent('oklch(60% 0.22 25)')">
-            <div class="tweak-dot" style="background: oklch(60% 0.22 25);"></div>
-        </div>
-        <div class="tweak-opt" onclick="setAccent('oklch(85% 0.18 90)')">
-            <div class="tweak-dot" style="background: oklch(85% 0.18 90);"></div>
-        </div>
+  <!-- ================= PORTADA ================= -->
+  <section id="portada" class="hero" data-od-id="hero">
+    <div class="container hero-top">
+      <span class="meta">Sistemas de adquisición de clientes — Colombia</span>
+      <span class="meta meta-right">Estudio privado · Referencias en reunión</span>
     </div>
+    <div class="container">
+      <h1 data-od-id="hero-headline">Sin<br>vueltas.</h1>
+      <p class="hero-sub" data-od-id="hero-sub">Otros entregan un plan y se van. Nosotros dejamos el sistema andando y nos quedamos a operarlo — con <strong>un número nuevo cada mes</strong>.</p>
+      <div class="hero-actions" data-od-id="hero-actions">
+        <a class="btn btn-solid" href="#trabajo" data-od-id="cta-ver-trabajo">Ver el trabajo</a>
+        <a class="btn btn-ghost" href="#contacto" data-od-id="cta-diagnostico">Diagnóstico gratuito</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-cifras" data-od-id="cifras-strip" role="group" aria-label="Resultados verificados">
+        <span><b>395</b> Contactos comerciales</span>
+        <span><b>144.000</b> Seguidores</span>
+        <span><b>44</b> Organizaciones formadas</span>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        function setAccent(color) {
-            document.documentElement.style.setProperty('--accent-blue', color);
-        }
+  <!-- ================= ÍNDICE VIVO ================= -->
+  <section id="trabajo" class="section portfolio" tabindex="-1" data-od-id="portfolio-section">
+    <div class="portfolio-fill" id="indexFill" aria-hidden="true"></div>
+    <div class="container portfolio-inner">
+      <div class="portfolio-head section-head">
+        <p class="kicker" data-od-id="portfolio-kicker">01 — Portafolio</p>
+        <h2 data-od-id="portfolio-heading">No vas a encontrar el nombre de un solo cliente en esta página.</h2>
+        <p class="lede" data-od-id="portfolio-lede">Trabajamos con medios, empresas y programas de cooperación internacional. La discreción no es un detalle del servicio: es parte del servicio. Las referencias se dan en reunión, no en internet.</p>
+      </div>
 
-        // Reveal logic
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('active');
-            });
-        }, { threshold: 0.1 });
+      <div class="index" data-od-id="portfolio-index">
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        <article class="index-row" data-case="1" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Abrir caso 01 — Aseo profesional B2B, Bogotá" data-od-id="case-row-01">
+          <span class="i-num">01</span>
+          <span class="i-desc">Aseo profesional B2B</span>
+          <span class="i-loc">Bogotá</span>
+          <span class="i-fig"><b>395</b>&nbsp;Contactos</span>
+          <span class="i-hint">Ver caso →</span>
+          <template class="case-data">
+            <div class="case-panel" data-od-id="case-01">
+              <div class="case-head">
+                <h2 class="case-kicker">Caso 01 — Aseo profesional B2B · Bogotá</h2>
+                <button class="case-close" type="button">Cerrar ✕</button>
+              </div>
+              <div class="case-grid">
+                <div>
+                  <div class="case-block" data-od-id="case-01-problema">
+                    <span class="case-label">El problema</span>
+                    <p>Invertía más de un millón de pesos al mes en publicidad y no tenía forma de saber cuántos clientes le llegaban. El sistema de medición estaba desconectado de la cuenta que pagaba los anuncios.</p>
+                  </div>
+                  <div class="case-block" data-od-id="case-01-sistema">
+                    <span class="case-label">El sistema</span>
+                    <p>Estamos reconstruyendo la medición de punta a punta: ya depuramos las búsquedas que consumían presupuesto sin posibilidad de convertir y estamos conectando el seguimiento de formularios y llamadas a la cuenta que paga los anuncios.</p>
+                  </div>
+                </div>
+                <div class="plate-slot" data-od-id="case-01-pieza"></div>
+              </div>
+              <div class="case-number" data-od-id="case-01-numero">
+                <div class="cn-fig">395</div>
+                <div class="cn-detail">Contactos comerciales · $17,8 millones administrados · CTR 7,09% · conversión de clic a contacto 4,04%</div>
+              </div>
+            </div>
+          </template>
+          <div class="row-expand" aria-hidden="true"></div>
+        </article>
 
-        // Hero fragments
-        const heroFragments = document.getElementById('hero-fragments');
-        const fragmentTypes = [
-            { w: 240, h: 180, bars: 5 },
-            { w: 180, h: 120, grid: true },
-            { w: 200, h: 100, line: true }
-        ];
+        <article class="index-row" data-case="2" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Abrir caso 02 — Medio digital, Ecuador, Colombia y Perú" data-od-id="case-row-02">
+          <span class="i-num">02</span>
+          <span class="i-desc">Medio digital</span>
+          <span class="i-loc">Ecuador · Colombia · Perú</span>
+          <span class="i-fig"><b>144.000</b>&nbsp;Seguidores</span>
+          <span class="i-hint">Ver caso →</span>
+          <template class="case-data">
+            <div class="case-panel" data-od-id="case-02">
+              <div class="case-head">
+                <h2 class="case-kicker">Caso 02 — Medio digital · Ecuador, Colombia y Perú</h2>
+                <button class="case-close" type="button">Cerrar ✕</button>
+              </div>
+              <div class="case-grid">
+                <div>
+                  <div class="case-block" data-od-id="case-02-problema">
+                    <span class="case-label">El problema</span>
+                    <p>Un medio con una audiencia grande en redes y sin casa propia. Todo su archivo vivía dentro de plataformas que no controlaba.</p>
+                  </div>
+                  <div class="case-block" data-od-id="case-02-sistema">
+                    <span class="case-label">El sistema</span>
+                    <p>Construimos la plataforma editorial completa: arquitectura para tres países, sistema de formatos, blog editorial y distribución conectada a las redes que ya existían.</p>
+                  </div>
+                </div>
+                <div class="plate-slot" data-od-id="case-02-pieza"></div>
+              </div>
+              <div class="case-number" data-od-id="case-02-numero">
+                <div class="cn-fig">144.000</div>
+                <div class="cn-detail">Seguidores · 1.972 publicaciones · 3 países</div>
+              </div>
+            </div>
+          </template>
+          <div class="row-expand" aria-hidden="true"></div>
+        </article>
 
-        for (let i = 0; i < 10; i++) {
-            const type = fragmentTypes[i % fragmentTypes.length];
-            const f = document.createElement('div');
-            f.className = 'fragment';
-            f.style.width = type.w + 'px';
-            f.style.top = Math.random() * 80 + 10 + '%';
-            f.style.left = Math.random() * 80 + 10 + '%';
-            f.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
-            
-            let content = '<div class="fragment-header"><div class="fragment-dot"></div><div class="fragment-dot"></div><div class="fragment-dot"></div></div>';
-            if (type.bars) {
-                content += '<div class="fragment-chart">';
-                for (let j = 0; j < type.bars; j++) content += `<div class="fragment-bar" style="height: ${Math.random() * 100}%"></div>`;
-                content += '</div>';
-            } else if (type.grid) {
-                content += '<div class="fragment-grid">';
-                for (let j = 0; j < 6; j++) content += '<div class="fragment-block"></div>';
-                content += '</div>';
-            } else {
-                content += '<div class="fragment-line"></div><div class="fragment-line" style="width: 60%"></div>';
-            }
-            f.innerHTML = content;
-            heroFragments.appendChild(f);
-        }
+        <article class="index-row" data-case="3" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Abrir caso 03 — Programa de cooperación internacional, 6 regiones" data-od-id="case-row-03">
+          <span class="i-num">03</span>
+          <span class="i-desc">Cooperación internacional</span>
+          <span class="i-loc">6 regiones de Colombia</span>
+          <span class="i-fig"><b>44</b>&nbsp;Organizaciones</span>
+          <span class="i-hint">Ver caso →</span>
+          <template class="case-data">
+            <div class="case-panel" data-od-id="case-03">
+              <div class="case-head">
+                <h2 class="case-kicker">Caso 03 — Programa de cooperación internacional · 6 regiones</h2>
+                <button class="case-close" type="button">Cerrar ✕</button>
+              </div>
+              <div class="case-grid">
+                <div>
+                  <div class="case-block" data-od-id="case-03-problema">
+                    <span class="case-label">El problema</span>
+                    <p>Un programa de cooperación necesitaba que 44 organizaciones de base, muchas rurales y casi ninguna con presencia digital, aprendieran a comunicarse y a venderse en internet.</p>
+                  </div>
+                  <div class="case-block" data-od-id="case-03-sistema">
+                    <span class="case-label">El sistema</span>
+                    <p>Dos módulos — comunicación de marca con inteligencia artificial, y posicionamiento y marketing digital. Talleres virtuales, charlas y mentoría individual, organización por organización.</p>
+                  </div>
+                </div>
+                <div class="plate-slot" data-od-id="case-03-pieza"></div>
+              </div>
+              <div class="case-number" data-od-id="case-03-numero">
+                <div class="cn-fig">44</div>
+                <div class="cn-detail">Organizaciones · 6 regiones · 14 sesiones formativas</div>
+              </div>
+            </div>
+          </template>
+          <div class="row-expand" aria-hidden="true"></div>
+        </article>
 
-        // Parallax
-        window.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 40;
-            const y = (e.clientY / window.innerHeight - 0.5) * 40;
-            document.querySelectorAll('.fragment').forEach((f, i) => {
-                const factor = (i + 1) * 0.2;
-                f.style.transform = `translate(${x * factor}px, ${y * factor}px) rotate(${i * 2}deg)`;
-            });
-        });
+        <article class="index-row" data-case="4" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Índice 04 — Gremio profesional nacional, Colombia" data-od-id="case-row-04">
+          <span class="i-num">04</span>
+          <span class="i-desc">Gremio profesional nacional</span>
+          <span class="i-loc">Colombia</span>
+          <span class="i-fig fig-text"><b>Plataforma</b>&nbsp;+ presencia</span>
+          <span class="i-hint">Referencia en reunión →</span>
+          <template class="case-data">
+            <div class="case-panel" data-od-id="case-04">
+              <div class="case-head">
+                <h2 class="case-kicker">Índice 04 — Gremio profesional nacional · Colombia</h2>
+                <button class="case-close" type="button">Cerrar ✕</button>
+              </div>
+              <div class="case-grid">
+                <div>
+                  <div class="case-block">
+                    <span class="case-label">Índice</span>
+                    <p>Plataforma y presencia para un gremio profesional a nivel nacional.</p>
+                  </div>
+                </div>
+                <div class="plate-slot" data-od-id="case-04-pieza"></div>
+              </div>
+              <div class="case-number">
+                <div class="cn-detail">Referencia completa en reunión</div>
+              </div>
+            </div>
+          </template>
+          <div class="row-expand" aria-hidden="true"></div>
+        </article>
 
-        // Chaos items
-        const chaosContainer = document.getElementById('problem-chaos');
-        const chaosCopies = [
-            "Ads sin segmentación", "Web sin tráfico", "Contenido sin propósito", 
-            "CRM vacío", "Marketing improvisado", "Embudo roto"
-        ];
-        chaosCopies.forEach((text, i) => {
-            const item = document.createElement('div');
-            item.className = 'chaos-item reveal';
-            item.innerText = text;
-            item.style.top = Math.random() * 80 + '%';
-            item.style.left = Math.random() * 80 + '%';
-            item.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
-            chaosContainer.appendChild(item);
-            observer.observe(item);
-        });
+        <article class="index-row" data-case="5" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Índice 05 — Fundación, Colombia" data-od-id="case-row-05">
+          <span class="i-num">05</span>
+          <span class="i-desc">Fundación</span>
+          <span class="i-loc">Colombia</span>
+          <span class="i-fig fig-text"><b>Identidad</b>&nbsp;+ plataforma</span>
+          <span class="i-hint">Referencia en reunión →</span>
+          <template class="case-data">
+            <div class="case-panel" data-od-id="case-05">
+              <div class="case-head">
+                <h2 class="case-kicker">Índice 05 — Fundación · Colombia</h2>
+                <button class="case-close" type="button">Cerrar ✕</button>
+              </div>
+              <div class="case-grid">
+                <div>
+                  <div class="case-block">
+                    <span class="case-label">Índice</span>
+                    <p>Identidad y plataforma para una fundación.</p>
+                  </div>
+                </div>
+                <div class="plate-slot" data-od-id="case-05-pieza"></div>
+              </div>
+              <div class="case-number">
+                <div class="cn-detail">Referencia completa en reunión</div>
+              </div>
+            </div>
+          </template>
+          <div class="row-expand" aria-hidden="true"></div>
+        </article>
 
-        // Sticky Method
-        const methodSection = document.querySelector('.method');
-        const steps = document.querySelectorAll('.method-step');
-        window.addEventListener('scroll', () => {
-            const rect = methodSection.getBoundingClientRect();
-            const scrollPercent = -rect.top / (rect.height - window.innerHeight);
-            if (scrollPercent >= 0 && scrollPercent <= 1) {
-                const stepIndex = Math.min(Math.floor(scrollPercent * steps.length), steps.length - 1);
-                steps.forEach((s, i) => s.classList.toggle('active', i === stepIndex));
-            }
-        });
-    </script>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= OVERLAY DE CASO ================= -->
+  <div class="case-overlay" id="caseOverlay" role="dialog" aria-modal="true" aria-label="Caso de trabajo" data-od-id="case-overlay">
+    <div class="co-inner" id="caseOverlayInner"></div>
+  </div>
+
+  <!-- ================= ASÍ REPORTAMOS ================= -->
+  <section id="reporte" class="section report" data-od-id="report-section">
+    <div class="container">
+      <p class="kicker" data-od-id="report-kicker">02 — Así reportamos</p>
+      <div class="report-grid">
+        <div class="section-head">
+          <h2 data-od-id="report-heading">Cada mes recibes un documento como este.</h2>
+          <p class="lede" data-od-id="report-lede">En este informe le señalamos a un cliente <strong>$130.120</strong> que se estaban yendo en búsquedas que nunca iban a convertir. Plata que nosotros mismos administramos. Así reportamos: con el historial de cambios, con fecha y hora, y diciendo también lo que salió mal.</p>
+        </div>
+        <div class="report-piece" data-od-id="report-piece">
+          <div class="rp-tabs" role="tablist" aria-label="Páginas del informe">
+            <button type="button" class="rp-tab active" id="rp-tab-1" role="tab" aria-selected="true" aria-controls="rp-page-1" data-page="1" data-od-id="report-tab-1">Página 1 · Resumen</button>
+            <button type="button" class="rp-tab" id="rp-tab-2" role="tab" aria-selected="false" aria-controls="rp-page-2" data-page="2" data-od-id="report-tab-2">Página 2 · Historial</button>
+          </div>
+          <div class="rp-sheet" data-od-id="report-sheet">
+            <div class="rp-page active" id="rp-page-1" role="tabpanel" aria-labelledby="rp-tab-1">
+              <div class="rp-mast">
+                <span class="pl-redact"></span>
+                <span class="meta">Informe mensual · Adquisición</span>
+                <span class="rp-per">Período 07</span>
+              </div>
+              <div class="rp-big">
+                <div class="rp-amount" data-od-id="report-amount">$130.120</div>
+                <div class="rp-amount-note">Gasto eliminado en búsquedas sin conversión</div>
+              </div>
+              <div class="rp-rows">
+                <div><span>Contactos comerciales</span><b>395</b></div>
+                <div><span>CTR promedio</span><b>7,09%</b></div>
+                <div><span>Conversión clic → contacto</span><b>4,04%</b></div>
+                <div><span>Presupuesto administrado</span><b>$17,8M</b></div>
+              </div>
+              <p class="rp-note">Documento anonimizado. Se entrega con historial de cambios, fecha y hora de cada modificación.</p>
+            </div>
+            <div class="rp-page" id="rp-page-2" role="tabpanel" aria-labelledby="rp-tab-2">
+              <div class="rp-mast">
+                <span class="pl-redact"></span>
+                <span class="meta">Historial de cambios</span>
+                <span class="rp-per">Período 07</span>
+              </div>
+              <div class="rp-table-wrap">
+              <table class="rp-table">
+                <thead>
+                  <tr><th>Fecha</th><th>Hora</th><th>Cambio</th><th>Estado</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Día 02</td><td>09:14</td><td><b>Pausa de búsquedas sin conversión</b></td><td>Aplicado</td></tr>
+                  <tr><td>Día 06</td><td>14:02</td><td>Ajuste de puja en término principal</td><td>Aplicado</td></tr>
+                  <tr><td>Día 11</td><td>10:47</td><td>Conexión de llamadas a seguimiento</td><td>Aplicado</td></tr>
+                  <tr class="err"><td>Día 14</td><td>16:21</td><td><b>Búsqueda reactivada por error</b></td><td>Corregido en 24 h</td></tr>
+                  <tr><td>Día 19</td><td>11:30</td><td>Segmentación por zona</td><td>Aplicado</td></tr>
+                </tbody>
+              </table>
+              </div>
+              <p class="rp-note" style="color:var(--red);">Se reporta también lo que salió mal: una búsqueda se reactivó por error durante 24 horas. Quedó registrado, con fecha y hora.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EL SISTEMA ================= -->
+  <section id="sistema" class="section" data-od-id="system-section">
+    <div class="container">
+      <p class="kicker" data-od-id="system-kicker">03 — El sistema</p>
+      <h2 class="system-head" data-od-id="system-heading">Tráfico → Lead → Seguimiento → Cierre → Optimización</h2>
+      <p class="system-sub" data-od-id="system-sub">Si una sola de esas cinco está rota, todo lo demás es gasto.</p>
+    </div>
+  </section>
+
+  <!-- ================= PLAIN BOOST ================= -->
+  <section id="boost" class="section" data-od-id="boost-section">
+    <div class="container">
+      <p class="kicker" data-od-id="boost-kicker">04 — Plain Boost</p>
+      <div class="section-head">
+        <h2 data-od-id="boost-heading">Cuatro programas, descritos por resultado.</h2>
+      </div>
+      <div class="boost-table" data-od-id="boost-table" role="table" aria-label="Programas Plain Boost">
+        <div class="bt-rowgroup" role="rowgroup">
+        <div class="bt-head" role="row">
+          <span role="columnheader">Programa</span>
+          <span role="columnheader">Para quién</span>
+          <span role="columnheader">Resultado</span>
+        </div>
+        <div class="bt-row" role="row" data-od-id="boost-row-arranque">
+          <span class="bt-prog" role="cell"><span class="n">01</span>Arranque</span>
+          <span class="bt-for" role="cell">No tienen sistema digital armado</span>
+          <span class="bt-res" role="cell">Empiezan a recibir leads</span>
+        </div>
+        <div class="bt-row" role="row" data-od-id="boost-row-crecimiento">
+          <span class="bt-prog" role="cell"><span class="n">02</span>Crecimiento</span>
+          <span class="bt-for" role="cell">Ya invierten pero no escalan</span>
+          <span class="bt-res" role="cell">Más clientes con el mismo presupuesto</span>
+        </div>
+        <div class="bt-row" role="row" data-od-id="boost-row-escala">
+          <span class="bt-prog" role="cell"><span class="n">03</span>Escala</span>
+          <span class="bt-for" role="cell">Quieren crecimiento agresivo</span>
+          <span class="bt-res" role="cell">Sistema estable de adquisición</span>
+        </div>
+        <div class="bt-row" role="row" data-od-id="boost-row-sistema">
+          <span class="bt-prog" role="cell"><span class="n">04</span>Sistema Completo</span>
+          <span class="bt-for" role="cell">Quieren la máquina entera</span>
+          <span class="bt-res" role="cell">Ads, landing, automatización y CRM integrados</span>
+        </div>
+        </div>
+      </div>
+      <p class="boost-note" data-od-id="boost-note">Sin precios a la vista — el precio se cotiza después del diagnóstico.</p>
+      <div class="boost-foot">
+        <a class="btn btn-ghost" href="#contacto" data-od-id="cta-boost-diagnostico">Pedir diagnóstico</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACTO ================= -->
+  <section id="contacto" class="section" data-od-id="contact-section">
+    <div class="container">
+      <p class="kicker" data-od-id="contact-kicker">05 — Contacto</p>
+      <div class="contact-grid">
+        <div class="section-head">
+          <h2 data-od-id="contact-heading">Te decimos dónde estás perdiendo plata.</h2>
+          <p class="lede" data-od-id="contact-lede">Un diagnóstico de tu sistema actual, sin costo y sin compromiso. Te mostramos en qué parte del embudo se está quedando la gente y qué haría falta para cerrarlo.</p>
+        </div>
+        <div>
+          <form class="contact-form" name="contacto" method="POST" action="/thank-you.html" data-netlify="true" data-netlify-honeypot="bot-field" data-od-id="contact-form">
+            <input type="hidden" name="form-name" value="contacto">
+            <p class="cf-hp" aria-hidden="true">
+              <label>No llenar si eres humano: <input type="text" name="bot-field" tabindex="-1" autocomplete="off"></label>
+            </p>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-empresa">Empresa</label>
+              <input class="cf-input" id="cf-empresa" name="empresa" type="text" placeholder="Razón social" required autocomplete="organization">
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-vende">Qué vende</label>
+              <input class="cf-input" id="cf-vende" name="que_vende" type="text" placeholder="Qué producto o servicio venden" required>
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-invierte">Cuánto invierte hoy en adquisición</label>
+              <div class="cf-select-wrap">
+                <select class="cf-select" id="cf-invierte" name="inversion_mensual" required>
+                  <option value="">Seleccione un rango</option>
+                  <option value="Menos de 1M">Menos de $1M al mes</option>
+                  <option value="1M a 3M">$1M – $3M al mes</option>
+                  <option value="3M a 5M">$3M – $5M al mes</option>
+                  <option value="Mas de 5M">Más de $5M al mes</option>
+                  <option value="No invierte todavia">No invierte todavía</option>
+                </select>
+              </div>
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-contacto">Cómo contactarla</label>
+              <input class="cf-input" id="cf-contacto" name="contacto" type="text" placeholder="Email o WhatsApp" required autocomplete="email">
+            </div>
+            <div class="cf-consent">
+              <input class="cf-check" id="cf-datos" name="autorizacion_datos" type="checkbox" value="Si" required>
+              <label for="cf-datos">Autorizo a Plain Digital a tratar mis datos para responder esta solicitud, conforme a la <a href="/tratamiento-de-datos.html">política de tratamiento de datos</a>.</label>
+            </div>
+            <button type="submit" class="btn btn-solid cf-submit" data-od-id="cta-submit">Pedir diagnóstico</button>
+          </form>
+          <div class="contact-verif" data-od-id="contact-verification">
+            <b>Señales de negocio verificable</b>
+            <span>Razón social · NIT · Ciudad · Años operando</span>
+            <span>Compromiso: respuesta en 24 h hábiles</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<a class="mobile-cta" href="#contacto" data-od-id="cta-movil">Diagnóstico gratuito</a>
+
+<footer class="footer-light" data-od-id="site-footer">
+  <div class="container footer-light-inner">
+    <a href="#portada" data-od-id="brand-logo-footer" aria-label="Plain Digital — inicio">
+      <img src="mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="footer-light-logo">
+    </a>
+    <p class="footer-light-tag">Sistemas de adquisición de clientes · Bogotá, Colombia</p>
+    <span class="footer-light-rule" aria-hidden="true"></span>
+    <nav class="footer-light-links" aria-label="Enlaces legales">
+      <a href="/tratamiento-de-datos.html" data-od-id="footer-link-datos">Tratamiento de datos</a>
+      <a href="/politica-de-privacidad.html" data-od-id="footer-link-privacidad">Política de privacidad</a>
+      <a href="/terminos-y-condiciones.html" data-od-id="footer-link-terminos">Términos y condiciones</a>
+    </nav>
+    <!-- REDES: reactivar cuando existan las URL reales. Un enlace a "#" es peor senal que no tenerlo.
+    <nav class="footer-light-social" aria-label="Redes sociales">
+      <a href="https://instagram.com/USUARIO" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.2" cy="6.8" r="1"></circle></svg>
+      </a>
+      <a href="https://linkedin.com/company/USUARIO" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+      </a>
+    </nav>
+    -->
+    <div class="footer-light-meta">
+      <a href="mailto:hola@plain.digital">Hola@plain.digital</a>
+      <span>© 2026 Plain Digital</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= PLANTILLAS DE PIEZA ================= -->
+<template id="plate-01"><div class="plate plate-01">
+  <div class="pl-head">
+    <span class="pl-redact"></span>
+    <span class="pl-title">Cuenta publicitaria · Búsqueda</span>
+    <span class="pl-tag">Caso 01</span>
+  </div>
+  <div class="pl-body">
+    <div class="pl-list">
+      <div class="pl-li"><span class="pl-redact"></span><b>CTR 7,09%</b><i class="ok">En meta</i></div>
+      <div class="pl-li"><span class="pl-redact"></span><b>4,04%</b><i class="ok">Clic → contacto</i></div>
+      <div class="pl-li"><span class="pl-redact"></span><span class="meta">Búsqueda sin conversión</span><i class="ok">Pausada</i></div>
+      <div class="pl-li"><span class="pl-redact"></span><span class="meta">Búsqueda sin conversión</span><i class="ok">Pausada</i></div>
+      <div class="pl-li"><span class="pl-redact"></span><span class="meta">Medición de llamadas</span><i class="ok">Conectada</i></div>
+    </div>
+    <div class="pl-fig">
+      <div class="pl-fig-num">395</div>
+      <div class="pl-fig-lbl">Contactos comerciales</div>
+      <div class="pl-fig-sub">Formularios y llamadas</div>
+    </div>
+  </div>
+  <div class="pl-foot"><span>Inversión administrada $17,8M</span><span>Reporte 07</span></div>
+</div></template>
+
+<template id="plate-02"><div class="plate plate-02">
+  <div class="pl-head">
+    <span class="pl-redact lg"></span>
+    <span class="pl-title">Edición digital</span>
+    <span class="pl-tag">Ecuador · Colombia · Perú</span>
+  </div>
+  <div class="pl-body">
+    <div class="pl-cols">
+      <div class="pl-arts">
+        <div class="pl-art"><span class="pl-cat">Informe</span><span class="pl-headline" style="width:82%"></span><span class="pl-byline"></span></div>
+        <div class="pl-art"><span class="pl-cat">Crónica</span><span class="pl-headline" style="width:66%"></span><span class="pl-byline"></span></div>
+        <div class="pl-art"><span class="pl-cat">Análisis</span><span class="pl-headline" style="width:74%"></span><span class="pl-byline"></span></div>
+      </div>
+      <div class="pl-fig">
+        <div class="pl-fig-num">144.000</div>
+        <div class="pl-fig-lbl">Seguidores</div>
+        <div class="pl-fig-sub">1.972 publicaciones · 3 países</div>
+      </div>
+    </div>
+  </div>
+  <div class="pl-foot"><span>Plataforma editorial completa</span><span>Edición 2026</span></div>
+</div></template>
+
+<template id="plate-03"><div class="plate plate-03">
+  <div class="pl-head">
+    <span class="pl-redact"></span>
+    <span class="pl-title">Formación · Programa de cooperación</span>
+    <span class="pl-tag">6 regiones</span>
+  </div>
+  <div class="pl-body">
+    <div style="flex:1.2;min-width:0;">
+      <div class="pl-mod">Módulo A — Comunicación de marca + IA</div>
+      <div class="pl-mod">Módulo B — Posicionamiento y marketing digital</div>
+      <div class="pl-sess">
+        <div><b>Sesión 01</b><span>Marca y narrativa</span></div>
+        <div><b>Sesión 02</b><span>Canales y comunidad</span></div>
+        <div><b>Sesión 03</b><span>Posicionamiento local</span></div>
+        <div><b>…</b><span>Hasta 14 sesiones</span></div>
+      </div>
+    </div>
+    <div class="pl-fig">
+      <div class="pl-fig-num">44</div>
+      <div class="pl-fig-lbl">Organizaciones</div>
+      <div class="pl-fig-sub">Talleres, charlas y mentoría</div>
+    </div>
+  </div>
+  <div class="pl-foot"><span>14 sesiones formativas</span><span>Organización por organización</span></div>
+</div></template>
+
+<template id="plate-04"><div class="plate plate-04">
+  <div class="pl-head">
+    <span class="pl-redact"></span>
+    <span class="pl-title">Plataforma gremial</span>
+    <span class="pl-tag">Colombia</span>
+  </div>
+  <div class="pl-body">
+    <div class="pl-rail">
+      <span class="on">Inicio</span>
+      <span>Miembros</span>
+      <span>Documentos</span>
+      <span>Agenda</span>
+    </div>
+    <div class="pl-rows">
+      <div class="pl-row"><span class="pl-redact"></span><span class="meta">Miembro</span></div>
+      <div class="pl-row"><span class="pl-redact"></span><span class="meta">Miembro</span></div>
+      <div class="pl-row"><span class="pl-redact"></span><span class="meta">Miembro</span></div>
+    </div>
+    <div class="pl-fig">
+      <div class="pl-bignum">Plataforma<br>+ presencia</div>
+    </div>
+  </div>
+  <div class="pl-foot"><span>Gremio profesional nacional</span><span>Documento de referencia</span></div>
+</div></template>
+
+<template id="plate-05"><div class="plate plate-05">
+  <div class="pl-head">
+    <span class="pl-redact lg"></span>
+    <span class="pl-title">Identidad y plataforma</span>
+    <span class="pl-tag">Colombia</span>
+  </div>
+  <div class="pl-body">
+    <div class="pl-lockup">
+      <span class="pl-redact lg" style="width:180px"></span>
+      <span class="pl-redact" style="width:140px"></span>
+      <div class="pl-swatches">
+        <span class="pl-swatch" style="background:oklch(40% 0.01 0)"></span>
+        <span class="pl-swatch" style="background:oklch(55% 0.01 0)"></span>
+        <span class="pl-swatch" style="background:oklch(28% 0.01 0)"></span>
+      </div>
+    </div>
+    <div class="pl-fig">
+      <div class="pl-bignum">Identidad<br>+ plataforma</div>
+    </div>
+  </div>
+  <div class="pl-foot"><span>Fundación</span><span>Documento de referencia</span></div>
+</div></template>
+
+<script>
+(function(){
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* Skip link: la visibilidad la maneja :focus en CSS */
+  var skip = document.querySelector('.skip-focus');
+  if (skip) {
+    skip.addEventListener('click', function(){ var t = document.getElementById('trabajo'); if (t) { t.focus(); } });
+  }
+
+  /* Plate templates */
+  function getPlate(n){
+    var t = document.getElementById('plate-0' + n);
+    return t ? t.content.cloneNode(true) : null;
+  }
+
+  /* Build hover-fill layers */
+  var indexFill = document.getElementById('indexFill');
+  for (var i = 1; i <= 5; i++) {
+    var d = document.createElement('div');
+    d.className = 'pfill-plate pfill-plate-' + i;
+    var plate = getPlate(i);
+    if (plate) { d.appendChild(plate); }
+    indexFill.appendChild(d);
+  }
+
+  /* Living index: hover + click + keyboard */
+  var portfolio = document.querySelector('.portfolio');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.index-row'));
+  var lastRow = null;
+
+  function setHover(r){
+    if (!finePointer) return;
+    lastRow = r;
+    portfolio.setAttribute('data-hover', r.getAttribute('data-case'));
+    portfolio.classList.add('has-hover');
+    rows.forEach(function(o){ o.classList.toggle('hovered', o === r); });
+  }
+  function clearHover(){
+    if (!finePointer) return;
+    lastRow = null;
+    portfolio.removeAttribute('data-hover');
+    portfolio.classList.remove('has-hover');
+    rows.forEach(function(o){ o.classList.remove('hovered'); });
+  }
+  if (!finePointer) {
+    rows.forEach(function(r){
+      r.setAttribute('aria-expanded', 'false');
+      r.setAttribute('aria-haspopup', 'false');
+    });
+  }
+  rows.forEach(function(r){
+    r.addEventListener('mouseenter', function(){ setHover(r); });
+    r.addEventListener('mouseleave', function(){ if (lastRow === r) { clearHover(); } });
+    r.addEventListener('click', function(){ if (finePointer) { openCase(r); } else { toggleRow(r); } });
+    r.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (finePointer) { openCase(r); } else { toggleRow(r); }
+      }
+    });
+  });
+  portfolio.addEventListener('mouseleave', clearHover);
+
+  /* Build a case panel from a row's template, optionally wired to the overlay */
+  function buildCase(r, inOverlay){
+    var tpl = r.querySelector('template.case-data');
+    if (!tpl) return null;
+    var node = tpl.content.cloneNode(true);
+    var caseNum = r.getAttribute('data-case');
+    var slot = node.querySelector('.plate-slot');
+    if (slot) {
+      var plate = getPlate(+caseNum);
+      if (plate) { slot.appendChild(plate); }
+    }
+    var close = node.querySelector('.case-close');
+    if (close) {
+      close.addEventListener('click', function(){ if (inOverlay) { closeOverlay(); } else { toggleRow(r); } });
+    }
+    return node;
+  }
+
+  /* Mobile accordion */
+  function toggleRow(r){
+    var opening = !r.classList.contains('open');
+    var expand = r.querySelector('.row-expand');
+    if (opening) {
+      if (expand && !expand.querySelector('.case-panel')) {
+        var panel = buildCase(r, false);
+        if (panel) { expand.appendChild(panel); }
+      }
+      r.classList.add('open');
+      r.setAttribute('aria-expanded', 'true');
+    } else {
+      r.classList.remove('open');
+      r.setAttribute('aria-expanded', 'false');
+      if (expand) { expand.innerHTML = ''; }
+    }
+  }
+
+  /* Desktop overlay */
+  var overlay = document.getElementById('caseOverlay');
+  var overlayInner = document.getElementById('caseOverlayInner');
+  var lastTrigger = null;
+  function focusables(scope){
+    var nodes = scope.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    return Array.prototype.filter.call(nodes, function(n){ return n.offsetParent !== null; });
+  }
+  function openCase(r){
+    lastTrigger = r;
+    var panel = buildCase(r, true);
+    if (!panel) return;
+    overlayInner.innerHTML = '';
+    overlayInner.appendChild(panel);
+    var title = overlayInner.querySelector('.case-kicker');
+    if (title) { title.id = 'case-dialog-title'; overlay.setAttribute('aria-labelledby', 'case-dialog-title'); }
+    overlay.classList.add('active');
+    document.body.classList.add('case-open');
+    var close = overlayInner.querySelector('.case-close');
+    if (close) { close.focus(); }
+  }
+  function closeOverlay(){
+    overlay.classList.remove('active');
+    document.body.classList.remove('case-open');
+    setTimeout(function(){
+      overlayInner.innerHTML = '';
+      rows.forEach(function(o){ o.classList.remove('hovered'); });
+    }, 420);
+    if (lastTrigger && finePointer) { lastTrigger.focus(); }
+  }
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) { closeOverlay(); } });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && overlay.classList.contains('active')) { closeOverlay(); return; }
+    if (e.key === 'Tab' && overlay.classList.contains('active')) {
+      var f = focusables(overlayInner);
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      var active = document.activeElement;
+      if (e.shiftKey && (active === first || active === overlay)) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault(); first.focus();
+      }
+    }
+  });
+
+  /* Report flip */
+  var rpTabs = Array.prototype.slice.call(document.querySelectorAll('.rp-tab'));
+  var rpPages = Array.prototype.slice.call(document.querySelectorAll('.rp-page'));
+  rpTabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      rpTabs.forEach(function(t){ t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      rpPages.forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      var page = document.getElementById('rp-page-' + tab.getAttribute('data-page'));
+      if (page) { page.classList.add('active'); }
+    });
+  });
+})();
+</script>
 </body>
 </html>

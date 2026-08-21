@@ -1,0 +1,10 @@
+# Normaliza finales de línea: sin esto, cada edición desde Windows
+# genera un diff del archivo entero y el historial deja de servir.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.woff  binary
+*.woff2 binary

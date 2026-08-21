@@ -1,153 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gracias — Plain Digital</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: oklch(15% 0.02 250);
-            --fg-dark: oklch(95% 0.005 250);
-            --accent-blue: oklch(58% 0.18 255);
-            --accent-yellow: oklch(85% 0.18 90);
-            --muted: oklch(54% 0.012 250);
-            --font-display: 'Space Grotesk', system-ui, sans-serif;
-            --font-body: 'Inter', system-ui, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recibido — Plain Digital</title>
+<meta name="description" content="Recibimos tu solicitud de diagnóstico. Respondemos en 24 horas hábiles.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-dark);
-            color: var(--fg-dark);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            text-align: center;
-            max-width: 700px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 8px 18px;
-            background: rgba(235, 200, 47, 0.1);
-            color: var(--accent-yellow);
-            border-radius: 100px;
-            font-family: var(--font-display);
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 32px;
-        }
-
-        h1 {
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: clamp(2.5rem, 7vw, 5rem);
-            letter-spacing: -0.04em;
-            line-height: 1;
-            color: white;
-            margin-bottom: 24px;
-        }
-
-        h1 .accent {
-            color: var(--accent-yellow);
-        }
-
-        p {
-            font-size: 1.15rem;
-            color: var(--muted);
-            line-height: 1.5;
-            max-width: 540px;
-            margin: 0 auto 16px;
-        }
-
-        .next-steps {
-            margin-top: 60px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            text-align: left;
-        }
-
-        .step {
-            padding: 24px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-        }
-
-        .step-num {
-            font-family: var(--font-display);
-            font-weight: 700;
-            color: var(--accent-yellow);
-            font-size: 0.85rem;
-            letter-spacing: 0.2em;
-            margin-bottom: 8px;
-        }
-
-        .step-text {
-            color: white;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .back {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 60px;
-            padding: 16px 32px;
-            border-radius: 100px;
-            background-color: var(--accent-blue);
-            color: white;
-            text-decoration: none;
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .back:hover {
-            transform: translateY(-2px) scale(1.02);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 30px rgba(47, 111, 235, 0.2);
-        }
-    </style>
+<!-- ============================================================
+     CONVERSIÓN — esta página solo se alcanza tras enviar el formulario,
+     así que la visita ES el lead. Descomentar con los IDs reales.
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+  gtag('event', 'generate_lead', { event_category: 'contacto', event_label: 'diagnostico' });
+  gtag('event', 'conversion', { send_to: 'AW-XXXXXXXXX/XXXXXXXXXXXXXXXX' });
+</script>
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black: oklch(0% 0 0);
+  --bg: oklch(14.5% 0 0);
+  --fg: oklch(100% 0 0);
+  --muted: oklch(70.6% 0 0);
+  --border: color-mix(in oklch, var(--bg), var(--fg) 12%);
+  --gold: oklch(84.3% 0.143 86);
+  --font-display:'Archivo',"Helvetica Neue",Arial,sans-serif;
+  --font-body:'IBM Plex Sans',"Helvetica Neue",Arial,sans-serif;
+  --font-mono:'IBM Plex Mono',Consolas,"Courier New",monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --muted-2: color-mix(in oklch, var(--muted) 86%, var(--bg));
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font-body);
+  font-size:17px;
+  line-height:1.6;
+  background:var(--bg);
+  color:var(--muted);
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{ background:var(--fg); color:var(--bg); }
+h1{ font-family:var(--font-display); font-weight:900; font-size:clamp(52px,10vw,120px); letter-spacing:-0.03em; line-height:.9; color:var(--fg); text-wrap:balance; }
+h1 .gold{ color:var(--gold); }
+.meta{ font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted-2); }
+.wrap{ max-width:720px; width:100%; }
+.brand{ display:inline-flex; align-items:center; }
+.brand-logo{ height:28px; width:auto; display:block; filter:brightness(0) invert(1); }
+.foot a{ color:var(--fg); text-decoration:none; }
+.top{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:clamp(40px,8vh,72px); }
+.mid{ margin-bottom:clamp(40px,8vh,72px); }
+.mid p{ max-width:52ch; margin-top:24px; }
+.mid p strong{ color:var(--fg); font-weight:500; }
+.steps{ border-top:1px solid var(--border); }
+.step{ display:flex; align-items:baseline; gap:20px; padding:20px 0; border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:13px; letter-spacing:.06em; text-transform:uppercase; }
+.step .n{ color:var(--gold); }
+.step span:last-child{ color:var(--fg); margin-left:auto; text-align:right; }
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.7em;
+  min-height:52px; padding:0 30px; margin-top:clamp(36px,6vh,56px);
+  font-family:var(--font-mono); font-size:.8rem; letter-spacing:.09em; text-transform:uppercase;
+  background:var(--fg); color:var(--bg); text-decoration:none;
+  transition:background .35s var(--ease);
+}
+.btn:hover{ background:oklch(91% 0 0); }
+.btn:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; box-shadow:0 0 0 3px var(--bg); }
+.foot{ margin-top:clamp(48px,8vh,80px); border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *, *::before, *::after{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
+}
+@media (max-width:560px){
+  .step{ flex-direction:column; align-items:flex-start; gap:6px; }
+  .step span:last-child{ margin-left:0; text-align:left; }
+  .btn{ width:100%; }
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="badge">Mensaje recibido</div>
-        <h1>Tu solicitud <span class="accent">llegó.</span></h1>
-        <p>Gracias por contarnos sobre tu negocio. Un estratega de Plain Digital lo revisará y te escribirá en menos de 24 horas hábiles con un diagnóstico inicial.</p>
-
-        <div class="next-steps">
-            <div class="step">
-                <div class="step-num">PASO 1</div>
-                <div class="step-text">Revisamos tu caso</div>
-            </div>
-            <div class="step">
-                <div class="step-num">PASO 2</div>
-                <div class="step-text">Te enviamos un diagnóstico</div>
-            </div>
-            <div class="step">
-                <div class="step-num">PASO 3</div>
-                <div class="step-text">Agendamos una llamada</div>
-            </div>
-        </div>
-
-        <a href="/" class="back">← Volver al inicio</a>
-    </div>
+<div class="wrap">
+  <div class="top">
+    <a href="/" class="brand" data-od-id="brand-logo" aria-label="Plain Digital — inicio">
+      <img src="/mp1hbo6g-Logo-Final.png" alt="Plain Digital" class="brand-logo">
+    </a>
+    <span class="meta">Solicitud recibida</span>
+  </div>
+  <h1>Recibido.<br><span class="gold">Sin vueltas.</span></h1>
+  <div class="mid">
+    <p>Gracias por contarnos sobre tu sistema. Lo revisamos y en <strong>24 horas hábiles</strong> recibes un diagnóstico inicial: en qué parte del embudo se queda la gente y qué haría falta para cerrarlo.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><span class="n">01</span><span>Revisamos tu sistema actual</span></div>
+    <div class="step"><span class="n">02</span><span>Te enviamos el diagnóstico</span></div>
+    <div class="step"><span class="n">03</span><span>Agendamos la reunión</span></div>
+  </div>
+  <a href="/" class="btn">Volver al inicio ←</a>
+  <div class="foot">
+    <span class="meta">Plain Digital · Bogotá, Colombia</span>
+    <a href="mailto:hola@plain.digital" class="meta">hola@plain.digital</a>
+  </div>
+</div>
 </body>
 </html>

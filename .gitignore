@@ -10,3 +10,15 @@ desktop.ini
 
 # Netlify
 .netlify/
+
+# Node
+node_modules/
+
+# Archivos retirados en el rediseño v2, pendientes de borrar a mano
+_to_delete/
+
+# Documentos internos: NO deben publicarse en el dominio
+Auditoria_*.html
+DESIGN-HANDOFF.md
+DESIGN-MANIFEST.json
+brand-spec.md

@@ -12,6 +12,7 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
 
 [[headers]]
   for = "/*.html"
@@ -23,7 +24,44 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Redirección directa al thank-you (por si alguien llega vía POST directo)
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# La página de gracias solo se alcanza tras enviar el formulario: no debe indexarse.
+[[headers]]
+  for = "/thank-you.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# Rutas legales sin extensión, por si se comparten así
+[[redirects]]
+  from = "/tratamiento-de-datos"
+  to = "/tratamiento-de-datos.html"
+  status = 301
+
+[[redirects]]
+  from = "/politica-de-privacidad"
+  to = "/politica-de-privacidad.html"
+  status = 301
+
+[[redirects]]
+  from = "/terminos-y-condiciones"
+  to = "/terminos-y-condiciones.html"
+  status = 301
+
+[[redirects]]
+  from = "/gracias"
+  to = "/thank-you.html"
+  status = 301
+
+# Redirección directa al contacto
 [[redirects]]
   from = "/contacto"
   to = "/#contacto"
