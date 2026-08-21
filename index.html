@@ -157,9 +157,18 @@ section[id]{ scroll-margin-top:88px; }
 /* ---------- LIVING INDEX ---------- */
 .portfolio{ position:relative; overflow:hidden; }
 .portfolio-fill{ position:absolute; inset:0; z-index:0; }
-.pfill-plate{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .45s var(--ease); }
-.pfill-plate::after{ content:""; position:absolute; inset:0; background:var(--black); opacity:.58; }
-.pfill-plate .plate{ transform:scale(1.18); }
+.pfill-plate{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:flex-end;
+  padding-inline:var(--wrap); opacity:0; transition:opacity .5s var(--ease);
+}
+.pfill-plate::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:linear-gradient(90deg, var(--bg) 0%, var(--bg) 34%, color-mix(in oklch, var(--bg) 86%, transparent) 62%, color-mix(in oklch, var(--bg) 78%, transparent) 100%);
+}
+.pfill-plate .plate{
+  width:min(620px, 46vw); transform:scale(1.02) translateY(-4%);
+  opacity:.34; filter:saturate(.55);
+}
 .portfolio[data-hover="1"] .pfill-plate-1{ opacity:1; }
 .portfolio[data-hover="2"] .pfill-plate-2{ opacity:1; }
 .portfolio[data-hover="3"] .pfill-plate-3{ opacity:1; }
@@ -183,7 +192,7 @@ section[id]{ scroll-margin-top:88px; }
 .index-row .i-fig b{ color:var(--gold); font-weight:500; }
 .index-row .i-fig.fig-text{ color:var(--muted); }
 .index-row .i-hint{ position:absolute; right:0; top:-1px; transform:translateY(-100%); font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); opacity:0; transition:opacity .3s var(--ease); padding:2px 0; }
-.portfolio.has-hover .index-row{ opacity:.25; }
+.portfolio.has-hover .index-row{ opacity:.34; }
 .portfolio.has-hover .index-row.hovered{ opacity:1; }
 .portfolio.has-hover .index-row.hovered .i-desc{ color:var(--fg); transform:translateX(10px); }
 .portfolio.has-hover .index-row.hovered .i-num{ color:var(--fg); }
