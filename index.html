@@ -135,6 +135,8 @@ section[id]{ scroll-margin-top:88px; }
 .nav-links{ display:flex; gap:clamp(16px,2.6vw,40px); align-items:center; }
 .nav-links a{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); transition:color .3s var(--ease); padding:8px 0; }
 .nav-links a:hover{ color:var(--fg); }
+.nav-links .nav-clientes{ color:var(--fg); border:1px solid color-mix(in oklch, var(--fg) 30%, transparent); border-radius:999px; padding:6px 14px; }
+.nav-links .nav-clientes:hover{ border-color:var(--fg); }
 .nav-links .nav-cta{ color:var(--fg); border-bottom:1px solid color-mix(in oklch, var(--fg) 40%, transparent); padding-bottom:3px; }
 
 /* ---------- HERO ---------- */
@@ -459,6 +461,7 @@ body.case-open{ overflow:hidden; }
       <a href="#sistema" class="hide-m">Sistema</a>
       <a href="#boost" class="hide-m">Boost</a>
       <a href="#contacto" class="nav-cta">Diagnóstico</a>
+      <a href="https://app.plaindigital.co" class="nav-clientes" data-od-id="nav-clientes" aria-label="Portal de clientes: ingresar">Clientes</a>
     </nav>
   </div>
 </header>
@@ -1151,6 +1154,38 @@ body.case-open{ overflow:hidden; }
       var page = document.getElementById('rp-page-' + tab.getAttribute('data-page'));
       if (page) { page.classList.add('active'); }
     });
+  });
+})();
+</script>
+<script>
+/* Formulario de diagnóstico: guarda el contacto como prospecto en el portal (Supabase)
+   y luego envía normal a Netlify Forms, que sigue siendo el respaldo. La clave es la
+   pública (anon): la base solo le permite INSERTAR prospectos de origen 'web'. */
+(function(){
+  var form = document.querySelector('form[name="contacto"]');
+  if (!form || !window.fetch) return;
+  var URL = 'https://itsptapunhrhqvwrpcrd.supabase.co/rest/v1/prospectos';
+  var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0c3B0YXB1bmhyaHF2d3JwY3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMTQ2MDcsImV4cCI6MjEwODY5MDYwN30.KGU_Is6oNTmqdCfKoI472w6YDcBz6XMDH1ocoeqL4Jk';
+  var enviado = false;
+  form.addEventListener('submit', function(e){
+    if (enviado) return;                       // segunda pasada: envío normal a Netlify
+    if (form.elements['bot-field'] && form.elements['bot-field'].value) return;  // bot: que lo filtre Netlify
+    e.preventDefault();
+    var c = (form.elements.contacto.value || '').trim();
+    var dato = {
+      origen: 'web', etapa: 'nuevo', autoriza_contacto: true,
+      empresa: (form.elements.empresa.value || '').trim().slice(0,160),
+      que_hace: (form.elements.que_vende.value || '').trim().slice(0,300),
+      email: c.indexOf('@') > -1 ? c.slice(0,160) : null,
+      telefono: c.indexOf('@') > -1 ? null : c.slice(0,40),
+      notas: ('Inversión mensual declarada: ' + (form.elements.inversion_mensual.value || '-')).slice(0,300)
+    };
+    var listo = function(){ enviado = true; form.submit(); };
+    var t = setTimeout(listo, 2500);           // si la base tarda, igual se envía
+    fetch(URL, { method:'POST', keepalive:true,
+      headers:{ 'apikey':KEY, 'Authorization':'Bearer '+KEY, 'Content-Type':'application/json', 'Prefer':'return=minimal' },
+      body: JSON.stringify(dato) })
+      .catch(function(){}).then(function(){ clearTimeout(t); listo(); });
   });
 })();
 </script>
