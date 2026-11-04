@@ -3,33 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plain Digital — Sistemas de adquisición de clientes · Bogotá</title>
-<meta name="description" content="Construimos y operamos sistemas de adquisición de clientes: tráfico, conversión, automatización y medición. Un número nuevo cada mes. Bogotá, Colombia.">
+<title>Plain Digital | Agencia de marketing digital en Bogotá · Más clientes, sin vueltas</title>
+<meta name="description" content="Agencia de marketing digital en Bogotá. Construimos sistemas para que entren clientes todos los días: Google Ads, Meta Ads, landing pages, WhatsApp automatizado y reportes claros.">
 <link rel="canonical" href="https://plaindigital.co/">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="theme-color" content="#FFFFFF">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Plain Digital">
 <meta property="og:locale" content="es_CO">
 <meta property="og:url" content="https://plaindigital.co/">
 <meta property="og:title" content="Plain Digital — Sin vueltas.">
-<meta property="og:description" content="Sistemas de adquisición de clientes. Un índice, una cifra junto a cada trabajo y cero nombres de cliente.">
+<meta property="og:description" content="Sistemas para que entren clientes todos los días: pauta en Google y Meta, landing pages, WhatsApp automatizado y reportes claros. Bogotá, Colombia.">
 <meta property="og:image" content="https://plaindigital.co/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Plain Digital — Sin vueltas.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Plain Digital — Sin vueltas.">
-<meta name="twitter:description" content="Sistemas de adquisición de clientes. Un índice, una cifra junto a cada trabajo y cero nombres de cliente.">
+<meta name="twitter:description" content="Sistemas para que entren clientes todos los días: pauta en Google y Meta, landing pages, WhatsApp automatizado y reportes claros. Bogotá, Colombia.">
 <meta name="twitter:image" content="https://plaindigital.co/og-image.jpg">
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ProfessionalService","name":"Plain Digital","url":"https://plaindigital.co/","image":"https://plaindigital.co/og-image.jpg","email":"hablemos@plaindigital.co","telephone":"+573002346149","description":"Sistemas de adquisición de clientes: tráfico, conversión, automatización y medición.","areaServed":{"@type":"Country","name":"Colombia"},"address":{"@type":"PostalAddress","streetAddress":"Calle 45 No. 25 - 04","addressLocality":"Bogotá","addressRegion":"Bogotá D.C.","addressCountry":"CO"},"knowsLanguage":"es"}
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Plain Digital","url":"https://plaindigital.co/","image":"https://plaindigital.co/og-image.jpg","email":"hablemos@plaindigital.co","telephone":"+573226850142","description":"Sistemas de adquisición de clientes: tráfico, conversión, automatización y medición.","areaServed":{"@type":"Country","name":"Colombia"},"address":{"@type":"PostalAddress","streetAddress":"Calle 45 No. 25 - 04","addressLocality":"Bogotá","addressRegion":"Bogotá D.C.","addressCountry":"CO"},"knowsLanguage":"es"}
 </script>
 
 <!-- ============================================================
@@ -127,15 +130,17 @@ section[id]{ scroll-margin-top:88px; }
 .btn-ghost:hover{ border-color:var(--fg); background:color-mix(in oklch, var(--fg) 6%, transparent); }
 
 /* ---------- NAV ---------- */
-.nav{ position:fixed; inset:0 0 auto; z-index:60; background:color-mix(in oklch, var(--bg) 82%, transparent); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid transparent; }
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ .nav{ background:var(--bg); } }
+.nav{ position:fixed; inset:0 0 auto; z-index:60; background:oklch(100% 0 0); border-bottom:1px solid oklch(90% 0 0); }
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){ .nav{ background:oklch(100% 0 0); } }
 .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:72px; }
 .brand{ display:inline-flex; align-items:center; }
-.brand-logo{ height:28px; width:auto; display:block; filter:brightness(0) invert(1); }
+.brand-logo{ height:34px; width:auto; display:block; }
 .nav-links{ display:flex; gap:clamp(16px,2.6vw,40px); align-items:center; }
-.nav-links a{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); transition:color .3s var(--ease); padding:8px 0; }
-.nav-links a:hover{ color:var(--fg); }
-.nav-links .nav-cta{ color:var(--fg); border-bottom:1px solid color-mix(in oklch, var(--fg) 40%, transparent); padding-bottom:3px; }
+.nav-links a{ font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:oklch(38% 0 0); transition:color .3s var(--ease); padding:8px 0; }
+.nav-links a:hover{ color:oklch(0% 0 0); }
+.nav-links .nav-cta{ color:oklch(0% 0 0); border-bottom:1px solid oklch(0% 0 0 / .4); padding-bottom:3px; }
+.nav-links .nav-clientes{ color:oklch(100% 0 0); background:oklch(0% 0 0); padding:9px 14px; border-radius:2px; }
+.nav-links .nav-clientes:hover{ color:oklch(100% 0 0); background:var(--red); }
 
 /* ---------- HERO ---------- */
 .hero{ min-height:100svh; display:flex; flex-direction:column; justify-content:space-between; padding:120px 0 clamp(24px,4vh,44px); position:relative; }
@@ -459,6 +464,7 @@ body.case-open{ overflow:hidden; }
       <a href="#sistema" class="hide-m">Sistema</a>
       <a href="#boost" class="hide-m">Boost</a>
       <a href="#contacto" class="nav-cta">Diagnóstico</a>
+      <a href="https://app.plaindigital.co" class="nav-clientes" data-od-id="nav-clientes">Clientes</a>
     </nav>
   </div>
 </header>
@@ -866,7 +872,7 @@ body.case-open{ overflow:hidden; }
     -->
     <div class="footer-light-meta">
       <a href="mailto:hablemos@plaindigital.co">hablemos@plaindigital.co</a>
-      <a href="tel:+573002346149">+57 300 234 6149</a>
+      <a href="https://wa.me/573226850142">WhatsApp +57 322 685 0142</a>
       <span>© 2026 Plain Digital</span>
     </div>
   </div>
