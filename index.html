@@ -825,12 +825,16 @@ body.case-open{ overflow:hidden; }
               </div>
             </div>
             <div class="cf-field">
-              <label class="cf-label" for="cf-contacto">Cómo contactarla</label>
-              <input class="cf-input" id="cf-contacto" name="contacto" type="text" placeholder="Email o WhatsApp" required autocomplete="email">
+              <label class="cf-label" for="cf-nombre">Tu nombre</label>
+              <input class="cf-input" id="cf-nombre" name="nombre" type="text" placeholder="Nombre y apellido" required autocomplete="name">
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-whatsapp">Tu WhatsApp</label>
+              <input class="cf-input" id="cf-whatsapp" name="whatsapp" type="tel" inputmode="tel" placeholder="+57 300 000 0000" required autocomplete="tel" pattern="[+0-9 ()\-]{7,20}">
             </div>
             <div class="cf-consent">
               <input class="cf-check" id="cf-datos" name="autorizacion_datos" type="checkbox" value="Si" required>
-              <label for="cf-datos">Autorizo a Plain Digital a tratar mis datos para responder esta solicitud, conforme a la <a href="/tratamiento-de-datos.html">política de tratamiento de datos</a>.</label>
+              <label for="cf-datos">Autorizo a Plain Digital a tratar mis datos y a contactarme por WhatsApp para responder esta solicitud, conforme a la <a href="/tratamiento-de-datos.html">política de tratamiento de datos</a>.</label>
             </div>
             <button type="submit" class="btn btn-solid cf-submit" data-od-id="cta-submit">Pedir diagnóstico</button>
           </form>
