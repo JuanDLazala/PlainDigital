@@ -38,6 +38,21 @@ export default async (req) => {
         name: (datos.nombre || '').slice(0, 120) || undefined,
         email: datos.email ? String(datos.email).slice(0, 160) : undefined,
         company: (datos.empresa || '').slice(0, 160) || undefined,
+        // Entra al embudo: origen, campos y negocio en "Nuevo lead".
+        tags: ['origen-web', 'prospecto'],
+        custom_fields: {
+          'Empresa': datos.empresa || '',
+          'Inversión mensual en pauta': datos.inversion_mensual || '',
+          'Origen': 'Formulario plaindigital.co',
+        },
+        deal: {
+          title: `Web · ${(datos.empresa || datos.nombre || 'Prospecto').slice(0, 80)}`,
+          notes: [
+            `Qué vende: ${datos.que_vende || '—'}`,
+            `Inversión mensual en adquisición: ${datos.inversion_mensual || '—'}`,
+            `Autorizó tratamiento de datos y contacto por WhatsApp para responder esta solicitud: ${datos.autorizacion_datos === 'Si' ? 'sí' : 'no consta'} (formulario web, ${new Date().toISOString().slice(0, 10)})`,
+          ].join('\n'),
+        },
       }),
     });
     console.log('[lead] CRM respondió', r.status);
