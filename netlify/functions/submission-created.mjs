@@ -45,12 +45,23 @@ export default async (req) => {
           'Inversión mensual en pauta': datos.inversion_mensual || '',
           'Origen': 'Formulario plaindigital.co',
         },
+        // Casilla opcional del formulario: permiso para difusiones por WhatsApp.
+        ...(datos.autorizacion_difusiones === 'Si'
+          ? {
+              whatsapp_permiso: {
+                estado: 'si',
+                fuente: 'formulario plaindigital.co',
+                texto: 'Quiero recibir por WhatsApp contenidos, invitaciones y novedades de Plain Digital. Es opcional y me puedo dar de baja cuando quiera respondiendo BAJA.',
+              },
+            }
+          : {}),
         deal: {
           title: `Web · ${(datos.empresa || datos.nombre || 'Prospecto').slice(0, 80)}`,
           notes: [
             `Qué vende: ${datos.que_vende || '—'}`,
             `Inversión mensual en adquisición: ${datos.inversion_mensual || '—'}`,
             `Autorizó tratamiento de datos y contacto por WhatsApp para responder esta solicitud: ${datos.autorizacion_datos === 'Si' ? 'sí' : 'no consta'} (formulario web, ${new Date().toISOString().slice(0, 10)})`,
+            `Autorizó difusiones por WhatsApp: ${datos.autorizacion_difusiones === 'Si' ? 'sí' : 'no'}`,
           ].join('\n'),
         },
       }),

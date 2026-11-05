@@ -354,6 +354,7 @@ body.case-open{ overflow:hidden; }
 .cf-consent label{ font-size:14px; line-height:1.6; color:var(--muted); cursor:pointer; }
 .cf-consent a{ color:var(--fg); border-bottom:1px solid color-mix(in oklch, var(--fg) 40%, transparent); }
 .cf-consent a:hover{ border-bottom-color:var(--fg); }
+.cf-consent-opt{ margin-top:12px; }
 .contact-verif{ margin-top:clamp(32px,5vh,56px); border-top:1px solid var(--border); padding-top:clamp(20px,3vh,28px); font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); line-height:1.9; }
 .contact-verif b{ color:var(--fg); font-weight:500; }
 .contact-verif span{ display:block; }
@@ -835,6 +836,10 @@ body.case-open{ overflow:hidden; }
             <div class="cf-consent">
               <input class="cf-check" id="cf-datos" name="autorizacion_datos" type="checkbox" value="Si" required>
               <label for="cf-datos">Autorizo a Plain Digital a tratar mis datos y a contactarme por WhatsApp para responder esta solicitud, conforme a la <a href="/tratamiento-de-datos.html">política de tratamiento de datos</a>.</label>
+            </div>
+            <div class="cf-consent cf-consent-opt">
+              <input class="cf-check" id="cf-difusiones" name="autorizacion_difusiones" type="checkbox" value="Si">
+              <label for="cf-difusiones">Quiero recibir por WhatsApp contenidos, invitaciones y novedades de Plain Digital. Es opcional y me puedo dar de baja cuando quiera respondiendo BAJA.</label>
             </div>
             <button type="submit" class="btn btn-solid cf-submit" data-od-id="cta-submit">Pedir diagnóstico</button>
           </form>
