@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recibido — Plain Digital</title>
-<meta name="description" content="Recibimos tu solicitud de diagnóstico. Respondemos en 24 horas hábiles.">
+<meta name="description" content="Recibimos tu solicitud de diagnóstico. Te escribimos por WhatsApp en menos de 2 horas hábiles.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -80,6 +80,9 @@ h1 .gold{ color:var(--gold); }
   transition:background .35s var(--ease);
 }
 .btn:hover{ background:oklch(91% 0 0); }
+.ctas{ display:flex; flex-wrap:wrap; gap:12px; }
+.btn-ghost{ background:transparent; color:var(--fg); border:1px solid var(--border); }
+.btn-ghost:hover{ background:transparent; border-color:var(--fg); }
 .btn:focus-visible{ outline:2px solid var(--fg); outline-offset:3px; box-shadow:0 0 0 3px var(--bg); }
 .foot{ margin-top:clamp(48px,8vh,80px); border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
 @media (prefers-reduced-motion: reduce){
@@ -103,14 +106,29 @@ h1 .gold{ color:var(--gold); }
   </div>
   <h1>Recibido.<br><span class="gold">Sin vueltas.</span></h1>
   <div class="mid">
-    <p>Gracias por contarnos sobre tu sistema. Lo revisamos y en <strong>24 horas hábiles</strong> recibes un diagnóstico inicial: en qué parte del embudo se queda la gente y qué haría falta para cerrarlo.</p>
+    <p>Gracias por contarnos sobre tu sistema. Un asesor te escribe por WhatsApp en <strong>menos de 2 horas hábiles</strong> para agendar el diagnóstico. ¿Quieres adelantar? Escríbenos ahora y empezamos ya.</p>
   </div>
   <div class="steps">
-    <div class="step"><span class="n">01</span><span>Revisamos tu sistema actual</span></div>
-    <div class="step"><span class="n">02</span><span>Te enviamos el diagnóstico</span></div>
-    <div class="step"><span class="n">03</span><span>Agendamos la reunión</span></div>
+    <div class="step"><span class="n">01</span><span>Te escribimos por WhatsApp</span></div>
+    <div class="step"><span class="n">02</span><span>Agendamos la llamada de diagnóstico</span></div>
+    <div class="step"><span class="n">03</span><span>Te mostramos dónde se queda la gente</span></div>
   </div>
-  <a href="/" class="btn">Volver al inicio ←</a>
+  <div class="ctas">
+    <a id="wa-cta" class="btn" data-od-id="cta-whatsapp" href="https://wa.me/573226850142?text=Hola%2C%20acabo%20de%20pedir%20el%20diagn%C3%B3stico%20en%20la%20web." target="_blank" rel="noopener">Escríbenos por WhatsApp →</a>
+    <a href="/" class="btn btn-ghost">Volver al inicio</a>
+  </div>
+  <script>
+    // Mensaje listo con el nombre y la empresa que dejó en el formulario.
+    // Debe contener "acabo de pedir el diagnóstico": así lo reconoce el CRM.
+    (function () {
+      try {
+        var d = JSON.parse(sessionStorage.getItem('pd_lead') || '{}');
+        var txt = 'Hola, acabo de pedir el diagnóstico en la web.';
+        if (d.nombre) txt += ' Soy ' + d.nombre + (d.empresa ? ', de ' + d.empresa : '') + '.';
+        document.getElementById('wa-cta').href = 'https://wa.me/573226850142?text=' + encodeURIComponent(txt);
+      } catch (e) {}
+    })();
+  </script>
   <div class="foot">
     <span class="meta">Plain Digital · Bogotá, Colombia</span>
     <a href="mailto:hablemos@plaindigital.co" class="meta">hablemos@plaindigital.co</a>

@@ -845,7 +845,7 @@ body.case-open{ overflow:hidden; }
           </form>
           <div class="contact-verif" data-od-id="contact-verification">
             <b>Señales de negocio verificable</b>
-            <span>Compromiso: respuesta en 24 h hábiles</span>
+            <span>Compromiso: respuesta en menos de 2 h hábiles</span>
             <span>Plain Digital · Bogotá D.C.</span>
           </div>
         </div>
@@ -1168,6 +1168,21 @@ body.case-open{ overflow:hidden; }
     });
   });
 })();
+</script>
+<script>
+  // Guarda nombre y empresa para el mensaje de WhatsApp de la página de gracias.
+  (function () {
+    var f = document.querySelector('form[name="contacto"]');
+    if (!f) return;
+    f.addEventListener('submit', function () {
+      try {
+        sessionStorage.setItem('pd_lead', JSON.stringify({
+          nombre: (f.elements.nombre && f.elements.nombre.value || '').trim().slice(0, 60),
+          empresa: (f.elements.empresa && f.elements.empresa.value || '').trim().slice(0, 60)
+        }));
+      } catch (e) {}
+    });
+  })();
 </script>
 </body>
 </html>
