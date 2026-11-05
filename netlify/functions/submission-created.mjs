@@ -67,6 +67,30 @@ export default async (req) => {
       }),
     });
     console.log('[lead] CRM respondió', r.status);
+
+    // Primer mensaje por WhatsApp con la plantilla aprobada (utilidad), solo si
+    // autorizó el contacto por WhatsApp para responder la solicitud. Si la
+    // plantilla aún no está aprobada, Meta la rechaza y el lead igual queda en el CRM.
+    if (datos.autorizacion_datos === 'Si') {
+      const primerNombre = String(datos.nombre || '').trim().split(/\s+/)[0] || 'hola';
+      try {
+        const m = await fetch(`${CRM_URL}/api/v1/messages`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${process.env.CRM_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            to: telefono,
+            type: 'template',
+            template: { name: 'diagnostico_web_recibido', language: 'es', params: [primerNombre.slice(0, 40)] },
+          }),
+        });
+        console.log('[lead] plantilla WhatsApp', m.status, m.ok ? '' : (await m.text()).slice(0, 300));
+      } catch (e) {
+        console.error('[lead] no se pudo enviar la plantilla', e);
+      }
+    }
     return new Response('ok');
   } catch (e) {
     console.error('[lead] error', e);
