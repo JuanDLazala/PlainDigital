@@ -833,6 +833,10 @@ body.case-open{ overflow:hidden; }
               <label class="cf-label" for="cf-whatsapp">Tu WhatsApp</label>
               <input class="cf-input" id="cf-whatsapp" name="whatsapp" type="tel" inputmode="tel" placeholder="+57 300 000 0000" required autocomplete="tel" pattern="[+0-9 ()\-]{7,20}">
             </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-email">Tu correo <span style="opacity:.6">(opcional)</span></label>
+              <input class="cf-input" id="cf-email" name="email" type="email" placeholder="nombre@empresa.com" autocomplete="email">
+            </div>
             <div class="cf-consent">
               <input class="cf-check" id="cf-datos" name="autorizacion_datos" type="checkbox" value="Si" required>
               <label for="cf-datos">Autorizo a Plain Digital a tratar mis datos y a contactarme por WhatsApp para responder esta solicitud, conforme a la <a href="/tratamiento-de-datos.html">política de tratamiento de datos</a>.</label>
@@ -840,6 +844,10 @@ body.case-open{ overflow:hidden; }
             <div class="cf-consent cf-consent-opt">
               <input class="cf-check" id="cf-difusiones" name="autorizacion_difusiones" type="checkbox" value="Si">
               <label for="cf-difusiones">Quiero recibir por WhatsApp contenidos, invitaciones y novedades de Plain Digital. Es opcional y me puedo dar de baja cuando quiera respondiendo BAJA.</label>
+            </div>
+            <div class="cf-consent cf-consent-opt">
+              <input class="cf-check" id="cf-correos" name="autorizacion_correos" type="checkbox" value="Si">
+              <label for="cf-correos">Quiero recibir por correo contenidos, invitaciones y novedades de Plain Digital. Es opcional y me puedo dar de baja cuando quiera desde el enlace que trae cada correo.</label>
             </div>
             <button type="submit" class="btn btn-solid cf-submit" data-od-id="cta-submit">Pedir diagnóstico</button>
           </form>
@@ -1174,6 +1182,14 @@ body.case-open{ overflow:hidden; }
   (function () {
     var f = document.querySelector('form[name="contacto"]');
     if (!f) return;
+    // Si marca recibir correos, el correo pasa a ser obligatorio.
+    var correos = f.elements.autorizacion_correos, email = f.elements.email;
+    if (correos && email) {
+      correos.addEventListener('change', function () {
+        email.required = correos.checked;
+        if (!correos.checked) email.setCustomValidity('');
+      });
+    }
     f.addEventListener('submit', function () {
       try {
         sessionStorage.setItem('pd_lead', JSON.stringify({

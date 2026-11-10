@@ -55,6 +55,16 @@ export default async (req) => {
               },
             }
           : {}),
+        // Casilla opcional: permiso para correos (Brevo). Solo si dejó correo.
+        ...(datos.autorizacion_correos === 'Si' && datos.email
+          ? {
+              email_permiso: {
+                estado: 'si',
+                fuente: 'formulario plaindigital.co',
+                texto: 'Quiero recibir por correo contenidos, invitaciones y novedades de Plain Digital. Es opcional y me puedo dar de baja cuando quiera desde el enlace que trae cada correo.',
+              },
+            }
+          : {}),
         deal: {
           title: `Web · ${(datos.empresa || datos.nombre || 'Prospecto').slice(0, 80)}`,
           notes: [
@@ -62,6 +72,7 @@ export default async (req) => {
             `Inversión mensual en adquisición: ${datos.inversion_mensual || '—'}`,
             `Autorizó tratamiento de datos y contacto por WhatsApp para responder esta solicitud: ${datos.autorizacion_datos === 'Si' ? 'sí' : 'no consta'} (formulario web, ${new Date().toISOString().slice(0, 10)})`,
             `Autorizó difusiones por WhatsApp: ${datos.autorizacion_difusiones === 'Si' ? 'sí' : 'no'}`,
+            `Autorizó correos: ${datos.autorizacion_correos === 'Si' && datos.email ? 'sí' : 'no'}`,
           ].join('\n'),
         },
       }),
