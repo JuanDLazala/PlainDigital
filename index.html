@@ -807,6 +807,15 @@ body.case-open{ overflow:hidden; }
         <div>
           <form class="contact-form" name="contacto" method="POST" action="/thank-you.html" data-netlify="true" data-netlify-honeypot="bot-field" data-od-id="contact-form">
             <input type="hidden" name="form-name" value="contacto">
+            <input type="hidden" name="utm_source" value="">
+            <input type="hidden" name="utm_medium" value="">
+            <input type="hidden" name="utm_campaign" value="">
+            <input type="hidden" name="utm_term" value="">
+            <input type="hidden" name="utm_content" value="">
+            <input type="hidden" name="gclid" value="">
+            <input type="hidden" name="fbclid" value="">
+            <input type="hidden" name="pagina_entrada" value="">
+            <input type="hidden" name="referido" value="">
             <p class="cf-hp" aria-hidden="true">
               <label>No llenar si eres humano: <input type="text" name="bot-field" tabindex="-1" autocomplete="off"></label>
             </p>
@@ -1206,6 +1215,29 @@ body.case-open{ overflow:hidden; }
       } catch (e) {}
     });
   })();
+</script>
+<script>
+/* Origen del lead: guarda la primera visita con UTM/gclid/fbclid (90 días)
+   y la copia a los campos ocultos del formulario "contacto". */
+(function(){
+  var K='pd_origen', CAMPOS=['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'];
+  var q=new URLSearchParams(location.search), hoy={}, hay=false;
+  CAMPOS.forEach(function(c){var v=q.get(c); if(v){hoy[c]=v.slice(0,150); hay=true;}});
+  var guardado=null;
+  try{guardado=JSON.parse(localStorage.getItem(K)||'null');}catch(e){}
+  if(guardado && guardado.t && Date.now()-guardado.t>90*864e5) guardado=null;
+  if(hay){
+    hoy.pagina_entrada=location.pathname; hoy.referido=(document.referrer||'').slice(0,200); hoy.t=Date.now();
+    guardado=hoy;
+    try{localStorage.setItem(K,JSON.stringify(hoy));}catch(e){}
+  } else if(!guardado){
+    guardado={pagina_entrada:location.pathname, referido:(document.referrer||'').slice(0,200)};
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var f=document.querySelector('form[name="contacto"]'); if(!f) return;
+    Object.keys(guardado).forEach(function(c){ if(f.elements[c]) f.elements[c].value=guardado[c]; });
+  });
+})();
 </script>
 </body>
 </html>
