@@ -16,11 +16,24 @@
     var h = a.getAttribute('href') || '';
     if (/wa\.me|api\.whatsapp\.com|whatsapp:/i.test(h)) {
       gtag('event', 'contacto_whatsapp', { link_url: h });
+      if (window.fbq) fbq('track', 'Contact', { content_name: 'whatsapp' });
     } else if (/calendar\.google\.com\/calendar\/appointments|calendar\.app\.google/i.test(h)) {
       gtag('event', 'agendar_diagnostico', { link_url: h });
+      if (window.fbq) fbq('track', 'Schedule', { content_name: 'diagnostico' });
     }
   }, true);
 </script>
+<!-- Meta Pixel (Plain Digital Web · 1094511603402213) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1094511603402213');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1094511603402213&ev=PageView&noscript=1"></noscript>
 <title>Política de privacidad — Plain Digital</title>
 <meta name="description" content="Qué recoge el sitio plaindigital.co, qué cookies usa y cómo se ejercen tus derechos.">
 <meta name="robots" content="index, follow">
@@ -109,12 +122,14 @@ footer a{ color:var(--fg); text-decoration:none; }
 <p>Cuando visitas plaindigital.co, nuestro proveedor de alojamiento registra datos técnicos por seguridad y funcionamiento: dirección IP, tipo de navegador y dispositivo, páginas visitadas y fecha y hora. Son registros técnicos, no un perfil tuyo, y no los cruzamos con la información del formulario.</p>
 
 <h2>3. Cookies y medición</h2>
-<p>Este sitio <strong>no usa cookies de publicidad ni de perfilado</strong> por sí mismo. Usamos herramientas de analítica web para saber cuánta gente llega, desde dónde y qué secciones lee. Esas herramientas pueden instalar cookies propias o de terceros en tu navegador.</p>
+<p>Usamos herramientas de analítica y de medición publicitaria para saber cuánta gente llega, desde dónde, qué secciones lee y qué anuncio la trajo. Esas herramientas instalan cookies propias o de terceros en tu navegador y comparten con Google y Meta datos de tu visita (páginas vistas, clics en WhatsApp o en la agenda, envío del formulario e identificadores del navegador). Con eso medimos nuestras campañas y les mostramos anuncios a personas parecidas a quienes nos escriben. No les enviamos tu nombre, tu teléfono ni tu correo.</p>
 <ul>
   <li><strong>Google Analytics</strong> — estadísticas agregadas de uso del sitio.</li>
-  <li><strong>Etiquetas de campañas publicitarias</strong> — cuando hay pauta activa, para saber qué anuncio trajo a cada visitante.</li>
+  <li><strong>Google Ads</strong> — medir qué anuncio de Google trajo a cada visitante.</li>
+  <li><strong>Píxel de Meta</strong> (Facebook e Instagram) — medir qué anuncio de Meta trajo a cada visitante y mostrar anuncios a personas que visitaron el sitio.</li>
+  <li><strong>Origen de la visita</strong> — si llegas desde un anuncio, guardamos en tu navegador hasta 90 días la campaña y el anuncio, y lo adjuntamos a tu solicitud si llenas el formulario.</li>
 </ul>
-<p>Puedes bloquear o borrar cookies desde la configuración de tu navegador. El sitio funciona igual sin ellas: no hay ninguna función que dependa de una cookie.</p>
+<p>Puedes bloquear o borrar cookies desde la configuración de tu navegador. También puedes ajustar tus preferencias de anuncios en tu cuenta de Google (adssettings.google.com) y de Meta (Configuración → Preferencias de anuncios). El sitio funciona igual sin cookies: no hay ninguna función que dependa de una.</p>
 
 <h2>4. Tipografías y recursos externos</h2>
 <p>El sitio carga sus tipografías desde Google Fonts. Al hacerlo, tu navegador se conecta a servidores de Google, que reciben tu dirección IP como parte de esa solicitud.</p>

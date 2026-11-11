@@ -16,11 +16,24 @@
     var h = a.getAttribute('href') || '';
     if (/wa\.me|api\.whatsapp\.com|whatsapp:/i.test(h)) {
       gtag('event', 'contacto_whatsapp', { link_url: h });
+      if (window.fbq) fbq('track', 'Contact', { content_name: 'whatsapp' });
     } else if (/calendar\.google\.com\/calendar\/appointments|calendar\.app\.google/i.test(h)) {
       gtag('event', 'agendar_diagnostico', { link_url: h });
+      if (window.fbq) fbq('track', 'Schedule', { content_name: 'diagnostico' });
     }
   }, true);
 </script>
+<!-- Meta Pixel (Plain Digital Web · 1094511603402213) -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1094511603402213');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1094511603402213&ev=PageView&noscript=1"></noscript>
 <title>Política de tratamiento de datos — Plain Digital</title>
 <meta name="description" content="Cómo Plain Digital recoge, usa, conserva y protege los datos personales, conforme a la Ley 1581 de 2012.">
 <meta name="robots" content="index, follow">
