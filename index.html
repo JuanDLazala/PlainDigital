@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (GA4 + Google Ads de Plain Digital) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NHXJBLRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // Conversiones por clic: WhatsApp y agenda de diagnóstico.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (/wa\.me|api\.whatsapp\.com|whatsapp:/i.test(h)) {
+      gtag('event', 'contacto_whatsapp', { link_url: h });
+    } else if (/calendar\.google\.com\/calendar\/appointments|calendar\.app\.google/i.test(h)) {
+      gtag('event', 'agendar_diagnostico', { link_url: h });
+    }
+  }, true);
+</script>
 <title>Plain Digital | Agencia de marketing digital en Bogotá · Más clientes, sin vueltas</title>
 <meta name="description" content="Agencia de marketing digital en Bogotá. Construimos sistemas para que entren clientes todos los días: Google Ads, Meta Ads, landing pages, WhatsApp automatizado y reportes claros.">
 <link rel="canonical" href="https://plaindigital.co/">
@@ -35,18 +53,6 @@
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Plain Digital","url":"https://plaindigital.co/","image":"https://plaindigital.co/og-image.jpg","email":"hablemos@plaindigital.co","telephone":"+573226850142","description":"Sistemas de adquisición de clientes: tráfico, conversión, automatización y medición.","areaServed":{"@type":"Country","name":"Colombia"},"address":{"@type":"PostalAddress","streetAddress":"Calle 45 No. 25 - 04","addressLocality":"Bogotá","addressRegion":"Bogotá D.C.","addressCountry":"CO"},"knowsLanguage":"es"}
 </script>
 
-<!-- ============================================================
-     MEDICIÓN — pegar aquí los identificadores reales.
-     Sustituir G-XXXXXXXXXX por el ID de GA4 y descomentar.
-     El evento de conversión se dispara en /thank-you.html.
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
-     ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

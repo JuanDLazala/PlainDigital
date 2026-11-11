@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (GA4 + Google Ads de Plain Digital) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-NHXJBLRM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  // Conversiones por clic: WhatsApp y agenda de diagnóstico.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (/wa\.me|api\.whatsapp\.com|whatsapp:/i.test(h)) {
+      gtag('event', 'contacto_whatsapp', { link_url: h });
+    } else if (/calendar\.google\.com\/calendar\/appointments|calendar\.app\.google/i.test(h)) {
+      gtag('event', 'agendar_diagnostico', { link_url: h });
+    }
+  }, true);
+</script>
 <title>Política de tratamiento de datos — Plain Digital</title>
 <meta name="description" content="Cómo Plain Digital recoge, usa, conserva y protege los datos personales, conforme a la Ley 1581 de 2012.">
 <meta name="robots" content="index, follow">
