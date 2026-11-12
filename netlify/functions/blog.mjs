@@ -116,11 +116,11 @@ article h1{font-size:clamp(38px,6vw,64px);font-weight:900;margin:16px 0 18px}
 .pie{border-top:1px solid var(--border);padding:32px var(--wrap);text-align:center;font-family:var(--fm);font-size:12px;letter-spacing:.1em;text-transform:uppercase}.pie a{margin:0 10px;text-decoration:none}
 `;
 
-function pagina({ titulo, descripcion, canonical, cuerpo, jsonld, ogImg }) {
+function pagina({ titulo, descripcion, canonical, cuerpo, jsonld, ogImg, noindex }) {
   return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 ${TRACKING}
 <title>${esc(titulo)}</title><meta name="description" content="${esc(descripcion)}">
-<link rel="canonical" href="${canonical}"><meta property="og:type" content="article"><meta property="og:title" content="${esc(titulo)}">
+<link rel="canonical" href="${canonical}">${noindex ? '<meta name="robots" content="noindex">' : ''}<meta property="og:type" content="article"><meta property="og:title" content="${esc(titulo)}">
 <meta property="og:description" content="${esc(descripcion)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${ogImg || SITIO + '/og-image.jpg'}">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -182,6 +182,16 @@ export default async (req) => {
     const a = data.articulo;
     const titulo = a.titulo.replace(/^Columna Sin cuentos #\d+ · /, '');
     const url = `${SITIO}/blog/${a.slug}`;
+    if (data.proximo) {
+      // Aprobado con fecha futura: el enlace ya sirve y muestra la tarjeta
+      // correcta al compartir; el texto completo sale el día programado.
+      const cuerpo = `<div class="wrap"><p class="eyebrow"><a href="/blog" style="text-decoration:none">Sin cuentos</a> <b>·</b> Sale el ${fecha(a.fecha_programada)}</p>
+<h1 class="col" style="font-size:clamp(40px,7vw,80px)">${esc(titulo)}<span>.</span></h1>
+<p class="lead">${esc(a.meta_description || a.gancho || '')}</p>
+<p class="vacio">Esta columna se publica el <b style="color:#fff">${fecha(a.fecha_programada)}</b>. Vuelve ese día, o escríbenos CUENTO por WhatsApp y te la mandamos apenas salga.</p>${cajaDiagnostico}</div>`;
+      return new Response(pagina({ titulo: a.meta_title || `${titulo} | Plain Digital`, descripcion: a.meta_description || a.gancho || '', canonical: url, cuerpo, ogImg: a.asset_url, noindex: true }),
+        { headers: { ...HTML, 'Netlify-CDN-Cache-Control': 'public, s-maxage=300' } });
+    }
     const cuerpo = `<div class="wrap"><article><p class="eyebrow"><a href="/blog" style="text-decoration:none">Sin cuentos</a> <b>·</b> ${fecha(a.fecha_programada)}</p>
 <h1>${esc(titulo)}</h1><p class="firma"><span>Por <b>${AUTOR}</b></span><span>${AUTOR_ROL}</span><span>${minutos(a.cuerpo_md)} min de lectura</span></p>
 <div class="cuerpo">${markdown(a.cuerpo_md)}</div></article>${cajaDiagnostico}</div>`;
