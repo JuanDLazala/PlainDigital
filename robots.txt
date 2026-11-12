@@ -3,3 +3,4 @@ Allow: /
 Disallow: /thank-you.html
 
 Sitemap: https://plaindigital.co/sitemap.xml
+Sitemap: https://plaindigital.co/blog/sitemap.xml
