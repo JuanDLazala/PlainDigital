@@ -122,7 +122,7 @@ ${TRACKING}
 <title>${esc(titulo)}</title><meta name="description" content="${esc(descripcion)}">
 <link rel="canonical" href="${canonical}"><meta property="og:type" content="article"><meta property="og:title" content="${esc(titulo)}">
 <meta property="og:description" content="${esc(descripcion)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${ogImg || SITIO + '/og-image.jpg'}">
-<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>` : ''}
